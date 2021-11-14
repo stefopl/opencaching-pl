@@ -381,12 +381,16 @@ use src\Models\OcConfig\OcConfig as _OcConfig;
     </div>
   </div>
   <script>
-      $( document ).ready(function() {
-          $('a[href*="https://mikr.us"]').each(function () {
-              $(this).attr("href", "https://mikr.us/?r=2eab3acc");
-              $(this).parent().css({'top': 'auto', 'bottom': '0'}).addClass('discreet-advertising');
-          });
-      });
+      window.onload = function() {
+          var mikrus = document.querySelectorAll('a[href^="https://mikr.us"]');
+
+          for (var i = 0, l = mikrus.length; i < l; i++) {
+              mikrus[i].href = 'https://mikr.us/?r=2eab3acc';
+              mikrus[i].parentElement.style.top='auto';
+              mikrus[i].parentElement.style.bottom='0';
+              mikrus[i].parentElement.classList.add("discreet-advertising");
+          }
+      }
   </script>
   <script>
     // this is used by search widget
