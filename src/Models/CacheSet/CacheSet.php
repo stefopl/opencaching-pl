@@ -18,6 +18,7 @@ use src\Models\OcConfig\OcConfig;
 use src\Utils\Email\EmailFormatter;
 use src\Utils\Email\Email;
 use src\Controllers\GeoPathController;
+use src\Models\Pictures\OcPicture;
 
 class CacheSet extends CacheSetCommon
 {
@@ -233,6 +234,7 @@ class CacheSet extends CacheSetCommon
 
     public function getImage()
     {
+        OcPicture::download_image_from_live($this->image);
         return $this->image;
     }
 

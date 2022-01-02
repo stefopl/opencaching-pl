@@ -1,6 +1,7 @@
 <?php
 namespace src\Models\Pictures;
 
+use ErrorException;
 use Exception;
 use src\Models\BaseObject;
 use src\Utils\Debug\Debug;
@@ -11,6 +12,7 @@ use src\Models\GeoCache\GeoCacheLog;
 use src\Utils\Generators\Uuid;
 use src\Utils\FileSystem\FileManager;
 use src\Models\News\News;
+use src\Utils\Uri\HttpCode;
 
 /**
  * Generic representation of picture atahed to log/cache/...
@@ -321,6 +323,51 @@ class OcPicture extends BaseObject
                 // thumbnail found
                 return $path.'/'.basename($result[0]);
             }
+        }else{
+
+            $r = urldecode($this->getFullImgUrl());
+            $r = preg_replace('|\?.+|','', $r);
+            if (preg_match('/\.(?:png|jpg|jpeg|gif|mp4)$/',$r ,$match)){
+
+                if (strpos($this->getFullImgUrl(), '://') === false) {
+                    $r2 = "https://opencaching.pl/".$this->getFullImgUrl();
+                    $data = file_get_contents($r2, false);
+                }else{
+                    $r2 = $this->getFullImgUrl();
+                    $data = file_get_contents($r2, false);
+                }
+
+                $mimeTypes = [
+                    '.css' => 'text/css',
+                    '.js'  => 'application/javascript',
+                    '.jpg' => 'image/jpg',
+                    '.jpeg' => 'image/jpg',
+                    '.gif' => 'image/gif',
+                    '.png' => 'image/png',
+                    '.map' => 'application/json',
+                ];
+
+                if ($data) {
+                    header("Content-Type: {$mimeTypes[$match[0]]}");
+
+                    $r = str_replace('https://opencaching.pl/', "/srv/ocpl-dynamic-files/", $r2);
+//                    $r = str_replace($match[0], "", $r);
+//                    $r = str_replace($this->getUuid(), "", $r);
+
+                    $ret = $this->file_force_contents($r,$data);
+                    readfile($r) ;
+                    if ($result = glob("$path/{$this->uuid}.*")) {
+                        if (!empty($result)) {
+                            // thumbnail found
+                            return $path.'/'.basename($result[0]);
+                        }
+                    }
+                }
+
+            }
+
+
+
         }
         return null;
     }
@@ -527,5 +574,59 @@ class OcPicture extends BaseObject
     public function getDataJson(): string
     {
         return json_encode($this->getData());
+    }
+
+    static function file_force_contents($dir1, $contents){
+        $parts = explode('/', $dir1);
+        $file = array_pop($parts);
+        $dir = "";
+        foreach($parts as $part)
+            if(!is_dir($dir .= "/$part")) {
+                $ret = mkdir($dir, 0777, true);
+            }
+        $ret = file_put_contents("$dir1", $contents);
+        return $ret;
+    }
+
+    public static function download_image_from_live($path){
+        if(!glob($path)){
+
+            $r = urldecode($path);
+            $r = preg_replace('|\?.+|','', $r);
+            if (preg_match('/\.(?:png|jpg|jpeg|gif|mp4)$/',$r ,$match)){
+
+                if (strpos($path, '://') === false) {
+
+                    $rs = $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['SERVER_NAME'].$path;
+                    if(intval(substr(get_headers($rs)[0], 9, 3)) == HttpCode::STATUS_OK){
+                        return;
+                    }else{
+                        $r2 = "https://opencaching.pl/".$path;
+                        $data = file_get_contents($r2, false);
+                    }
+                }else{
+                    $r2 = $path;
+                    $data = file_get_contents($r2, false);
+                }
+
+                $mimeTypes = [
+                    '.css' => 'text/css',
+                    '.js'  => 'application/javascript',
+                    '.jpg' => 'image/jpg',
+                    '.jpeg' => 'image/jpg',
+                    '.gif' => 'image/gif',
+                    '.png' => 'image/png',
+                    '.map' => 'application/json',
+                ];
+
+                if ($data) {
+//                    header("Content-Type: {$mimeTypes[$match[0]]}");
+                    $r = str_replace('https://opencaching.pl/', "/srv/ocpl-dynamic-files/", $r2);
+                    $ret = OcPicture::file_force_contents($r,$data);
+
+                }
+
+            }
+        }
     }
 }
