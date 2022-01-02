@@ -9,6 +9,7 @@ use src\Models\BaseObject;
 use src\Models\User\User;
 use src\Utils\Debug\Debug;
 use src\Models\OcConfig\OcConfig;
+use src\Models\Pictures\OcPicture;
 
 class PowerTrail extends BaseObject
 {
@@ -197,6 +198,7 @@ class PowerTrail extends BaseObject
 
     public function getImage()
     {
+        OcPicture::download_image_from_live($this->image);
         return $this->image;
     }
 
