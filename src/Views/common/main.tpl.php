@@ -375,6 +375,14 @@ use src\Models\OcConfig\OcConfig as _OcConfig;
     </div>
   </div>
   <script>
+      $( document ).ready(function() {
+          $('a[href*="https://mikr.us"]').each(function () {
+              $(this).attr("href", "https://mikr.us/?r=2eab3acc");
+              $(this).parent().css({'top': 'auto', 'bottom': '0'}).addClass('discreet-advertising');
+          });
+      });
+  </script>
+  <script>
     // this is used by search widget
     function chname(newName, newHint, newSearchBy, searchPage) {
       document.getElementById("search_input").name = newName;
