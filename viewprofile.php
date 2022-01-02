@@ -408,24 +408,22 @@ if ($seek == 0) {
         }
 
         $rsms = XDb::xSql(
-        "SET @r = 1;
-        SELECT * FROM
-        (
-            SELECT *,@r:=@r+1 row FROM (
-
-                SELECT cache_logs.cache_id cache_id, DATE_FORMAT(cache_logs.date,'%d-%m-%Y') data, caches.wp_oc cache_wp
-                FROM cache_logs, caches
-                WHERE caches.cache_id=cache_logs.cache_id AND cache_logs.type='1'
-                AND cache_logs.user_id= ? AND cache_logs.deleted='0'
-                ORDER BY cache_logs.date ASC
-
-            ) B
-        ) A
-        WHERE row=2 OR row % $milestone =1 ORDER BY row ASC", $user_id);
+        "SELECT * FROM
+                (
+                    SELECT cache_logs.cache_id as cache_id, DATE_FORMAT(cache_logs.date,'%d-%m-%Y') as data, caches.wp_oc as cache_wp, @row_num := @row_num + 1 AS row_num
+                    FROM cache_logs, caches,
+                    (
+                        SELECT @row_num := 1
+                    ) B
+                    WHERE caches.cache_id=cache_logs.cache_id AND cache_logs.type='1'
+                    AND cache_logs.user_id= ? AND cache_logs.deleted='0'
+                    ORDER BY cache_logs.date ASC
+                ) A
+                WHERE row_num=2 OR row_num % $milestone = 1 ORDER BY row_num ASC", $user_id);
 
         $rsms->nextRowset(); //to switch to second query results :)
-        while( $rms = XDb::xFetchArray($rsms)) {
-            $content .= '<tr> <td>' . ($rms['row']-1) . '</td><td>' . $rms['data'] . '</td><td><a class="links" href="viewcache.php?cacheid=' . $rms['cache_id'] . '">' . $rms['cache_wp'] . '</a></td></tr>';
+        while( $rms = XDb::xFetchArray($rsms) ) {
+            $content .= '<tr> <td>' . ($rms['row_num']-1) . '</td><td>' . $rms['data'] . '</td><td><a class="links" href="viewcache.php?cacheid=' . $rms['cache_id'] . '">' . $rms['cache_wp'] . '</a></td></tr>';
         }
 
         $content .= '</table>';

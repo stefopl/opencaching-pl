@@ -37,9 +37,9 @@ class NutsLocation extends BaseObject
     {
 
         $rs = $this->db->multiVariableQuery(
-            "SELECT `level`, code, AsText(shape) AS geometry
+            "SELECT `level`, code, ST_AsText(shape) AS geometry
             FROM nuts_layer
-            WHERE ST_WITHIN( GeomFromText( :1 ), shape)
+            WHERE ST_WITHIN( ST_GeomFromText( :1 ), shape)
             ORDER BY `level` DESC",
             "POINT({$coords->getLongitude()} {$coords->getLatitude()})");
 
