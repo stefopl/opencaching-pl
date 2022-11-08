@@ -84,7 +84,7 @@ class ErrorHandler
                 }
             } catch (\Exception $e) {
                 try {
-                    mail("root@localhost", "OC site error", $msg);
+                    mail("stefo@stefo.pl", "OC site error", $msg);
                 } catch (\Exception $e) {
                     $mailFail = true;
                 }
@@ -112,6 +112,7 @@ class ErrorHandler
                     $pageError = tr('page_error_1') . ' ';
                     $pageError .= tr($mailFail ? 'page_error_3' : 'page_error_2');
                     $mainPageLinkTitle = tr('page_error_back');
+                    print_r($msg);
                 } else {
                     // sometimes error can occured befor I18n init...
                     $pageError = 'An error occured while processing your request.' . ' ';

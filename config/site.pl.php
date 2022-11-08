@@ -9,7 +9,7 @@
 /**
  * Site name for the node
  */
-$site['siteName']= 'Opencaching.pl';
+$site['siteName']= 'ocpl.stefo.pl';
 
 /**
  * Page title (to display on the browser titlebar)
@@ -25,7 +25,7 @@ $site['ocNodeId'] = 2;
 /**
  * Site main domain - this should be only main part of domain eg. opencaching.pl for OCPL
  */
-$site['mainDomain'] = 'opencaching.pl';
+$site['mainDomain'] = 'ocpl.stefo.pl';
 
 /**
  * Site short name

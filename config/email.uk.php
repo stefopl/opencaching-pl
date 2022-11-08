@@ -9,7 +9,7 @@
 /**
  * Address used to send technical notifications from the OC server/code etc.
  */
-$config['technicalNotificationEmail'] = 'techNotifyUK@o#pencaching.pl';
+$config['technicalNotificationEmail'] = 'techNotifyUK@stefo.pl';
 
 /**
  * Technical contact address for users of this OC node

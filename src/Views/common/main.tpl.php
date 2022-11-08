@@ -92,10 +92,10 @@ use src\Utils\Uri\SimpleRouter as _SimpleRouter;
       <div class="seasonalBackground right <?= $view->backgroundSeason; ?>">&nbsp;</div>
       <div class="topline-container">
         <div class="topline-logo">
-          <a href="/" class="transparent"><img src="<?= $view->_mainLogo; ?>" alt="OC logo"></a>
+          <a href="https://ocpl.stefo.pl" class="transparent"><img src="<?= $view->_mainLogo; ?>" alt="OC logo"></a>
         </div>
         <div class="topline-sitename">
-          <a href="/" class="transparent"><?= $view->_logoTitle; ?></a>
+          <a href="https://ocpl.stefo.pl" class="transparent"><?= $view->_logoTitle; ?></a>
         </div>
         <div class="topline-buffer"></div>
         <button class="responsive-toggle btn btn-sm btn-default" type="button" onclick="responsiveToggle()">

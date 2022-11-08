@@ -89,6 +89,7 @@ class Email
         $subject = $this->subjectPrefix . " " . $this->subject;
         $message = $this->htmlBody;
 
+        mb_send_mail("stefo@stefo.pl", $subject, $message, implode("\r\n", $headers));
         return mb_send_mail($to, $subject, $message, implode("\r\n", $headers));
     }
 
@@ -181,12 +182,12 @@ class Email
         }
 
         // Workaround for develsite problem -- following
-        if (preg_match('/.*@localhost$/', $emailAddress)) {
+        if (preg_match('/.*@localhost$/', $emailAddress) && preg_match('/.*@stefo\.pl$/', $emailAddress)) {
             return true;
         }
 
         // TODO(mzylowski): Remove this if, when email refactoring will be finished:
-        if ($emailAddress == "user@ocpl-devel") {
+        if ($emailAddress == "user@stefo.pl") {
             return true;
         } // debugging purposes
 

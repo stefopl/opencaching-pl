@@ -33,7 +33,7 @@ $site['ocNodeId'] = 4;
 /**
  * Site main domain - this should be only main part of domain e.g. opencaching.pl for OCPL
  */
-$site['mainDomain'] = 'opencaching.pl';
+$site['mainDomain'] = 'ocpl.stefo.pl';
 
 /**
  * Primary country (or countries) for this node.
