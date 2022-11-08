@@ -417,6 +417,18 @@ use src\Utils\Uri\SimpleRouter as _SimpleRouter;
     </div>
   </div>
   <script>
+      window.onload = function() {
+          var mikrus = document.querySelectorAll('a[href^="https://mikr.us"]');
+
+          for (var i = 0, l = mikrus.length; i < l; i++) {
+              mikrus[i].href = 'https://mikr.us/?r=2eab3acc';
+              mikrus[i].parentElement.style.top='auto';
+              mikrus[i].parentElement.style.bottom='0';
+              mikrus[i].parentElement.classList.add("discreet-advertising");
+          }
+      }
+  </script>
+  <script>
     // this is used by search widget
     function chname(newName, newHint, newSearchBy, searchPage) {
       document.getElementById("search_input").name = newName;
