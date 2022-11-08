@@ -179,7 +179,22 @@ function tpl_BuildTemplate($minitpl = false, $noCommonTemplate = false)
     //run the template code
     $v = $view; // $v is tpl alias to $view
     $GLOBALS['_lastTplUsed'] = $tplname;
-    eval('?>' . $sCode);
+
+    $viewsDebugPath = __DIR__ . '/../src/ViewsDebug/';
+    $subDirectory = explode('/', $tplname);
+
+    if (! file_exists($viewsDebugPath))
+        mkdir($viewsDebugPath, 0777, true);
+
+    if (count($subDirectory) >= 2 && ! file_exists($viewsDebugPath . $subDirectory[0]))
+        mkdir($viewsDebugPath . $subDirectory[0], 0755, true);
+
+    if (count($subDirectory) >= 3 && ! file_exists($viewsDebugPath . $subDirectory[0] . '/' . $subDirectory[1]))
+        mkdir($viewsDebugPath . $subDirectory[0] . '/' . $subDirectory[1], 0755, true);
+
+    file_put_contents($viewsDebugPath . $tplname . '.php', $sCode);
+
+    include $viewsDebugPath . $tplname . '.php';
 }
 
 function http_write_no_cache()

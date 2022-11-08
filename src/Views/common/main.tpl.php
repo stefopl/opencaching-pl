@@ -222,6 +222,31 @@ use src\Utils\Uri\SimpleRouter as _SimpleRouter;
 
                 <!-- Navigation - horizontal menu bar -->
                 <div id="nav2">
+                    <ul class="rythm_nav2 contact_info_stefo">
+                        <style>
+                            .contact_info_stefo li{
+                                width: 100% !important;
+                                background-color: crimson !important;
+                            }
+                            .contact_info_stefo a{
+                                text-transform: initial !important;
+                                color: white !important;
+                                text-align: center !important;
+                                width: 100% !important;
+                                box-sizing: border-box !important;
+                                font-size: 11px !important;
+                                background-color: crimson !important;
+                            }
+                        </style>
+                        <li>
+                            <a href="mailto: user@ocpl.stefo.pl" rel="noopener">
+                                My database does not contain e-mails and passwords.
+                                To restore your account, please send your username and e-mail to user@ocpl.stefo.pl
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div id="nav2">
                     <ul class="rythm_nav2">
                         <?php foreach ($view->_menuBar as $key => $url) { ?>
                           <?php if (is_array($url)) { //array="open in new window"?>

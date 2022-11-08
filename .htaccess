@@ -1,6 +1,13 @@
 RewriteEngine on
 FileETag None
 
+#RewriteCond %{HTTPS} off
+#RewriteCond %{HTTP:X-Forwarded-Proto} =http
+#RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+
+#RewriteCond %{HTTPS} off
+#RewriteCond %{HTTP:X-Forwarded-Proto} =http
+#RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
 # redirect empty requests / -> public/index.php
 RewriteRule ^$  /public/index.php [L,NC]
@@ -59,3 +66,39 @@ RewriteRule ^(.*)$  /public/index.php?r=$1 [NC,L,QSA,B,NE,PT]
 #  /images/mini-mapa/ -> */ocpl-dynamic-files/images/mini-mapa/
 #  /mp3/              -> */ocpl-dynamic-files/mp3/
 #  /tmp/              -> */ocpl-dynamic-files/tmp/
+
+
+#php_value xdebug.mode debug
+#php_value xdebug.mode debug.develop
+#php_value xdebug.idekey PHPSTORM
+#php_value xdebug.client_host 172.0.0.1
+#php_value xdebug.client_port 40121
+#php_flag xdebug.start_with_request yes
+#php_value xdebug.discover_client_host 1
+
+
+
+# Xdebug 2
+php_value xdebug.idekey PHPSTORM
+php_flag  xdebug.remote_autostart on
+php_flag  xdebug.remote_enable on
+php_value xdebug.remote_host 127.0.0.1
+php_value xdebug.remote_port 9003
+#php_value xdebug.remote_port 40121
+php_value xdebug.remote_log /srv/ocpl-dynamic-files/xdebug.log
+php_value xdebug.remote_log_level 10
+
+# Xdebug 3
+php_value xdebug.mode debug
+php_value xdebug.mode debug.develop
+php_value xdebug.idekey PHPSTORM
+php_value xdebug.start_with_request yes
+#php_value xdebug.discover_client_host 0
+php_value xdebug.discover_client_host 1
+php_value xdebug.client_host 172.0.0.1
+php_value xdebug.client_port 9003
+#php_value xdebug.client_port 40121
+php_value xdebug.log /srv/ocpl-dynamic-files/xdebug.log
+#php_value xdebug.log /mnt/c/Users/artur/PhpstormProjects/opencaching-pl/dynamic-files/xedbug.log
+#php_value xdebug.log_level 10
+php_value xdebug.log_level 0

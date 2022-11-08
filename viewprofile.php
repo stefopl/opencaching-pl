@@ -408,24 +408,25 @@ if ($seek == 0) {
         }
 
         $rsms = XDb::xSql(
-        "SET @r = 1;
-        SELECT * FROM
-        (
-            SELECT *,@r:=@r+1 row FROM (
-
-                SELECT cache_logs.cache_id cache_id, DATE_FORMAT(cache_logs.date,'%d-%m-%Y') data, caches.wp_oc cache_wp
-                FROM cache_logs, caches
-                WHERE caches.cache_id=cache_logs.cache_id AND cache_logs.type='1'
-                AND cache_logs.user_id= ? AND cache_logs.deleted='0'
-                ORDER BY cache_logs.date ASC
-
-            ) B
-        ) A
-        WHERE row=2 OR row % $milestone =1 ORDER BY row ASC", $user_id);
+            "SELECT * FROM
+                (
+                    SELECT cache_logs.cache_id as cache_id, DATE_FORMAT(cache_logs.date,'%d-%m-%Y') as data, caches.wp_oc as cache_wp, @row_num := @row_num + 1 AS row_num
+                    FROM cache_logs, caches,
+                    (
+                        SELECT @row_num := 1
+                    ) B
+                    WHERE caches.cache_id=cache_logs.cache_id AND cache_logs.type='1'
+                    AND cache_logs.user_id= ? AND cache_logs.deleted='0'
+                    ORDER BY cache_logs.date ASC
+                ) A
+                WHERE row_num=2 OR row_num % {$milestone} = 1 ORDER BY row_num ASC",
+            $user_id
+        );
 
         $rsms->nextRowset(); //to switch to second query results :)
-        while( $rms = XDb::xFetchArray($rsms)) {
-            $content .= '<tr> <td>' . ($rms['row']-1) . '</td><td>' . $rms['data'] . '</td><td><a class="links" href="viewcache.php?cacheid=' . $rms['cache_id'] . '">' . $rms['cache_wp'] . '</a></td></tr>';
+
+        while ($rms = XDb::xFetchArray($rsms)) {
+            $content .= '<tr> <td>' . ($rms['row_num'] - 1) . '</td><td>' . $rms['data'] . '</td><td><a class="links" href="viewcache.php?cacheid=' . $rms['cache_id'] . '">' . $rms['cache_wp'] . '</a></td></tr>';
         }
 
         $content .= '</table>';
@@ -673,27 +674,29 @@ if ($user->getHiddenGeocachesCount() == 0) {
          */
         unset($rsms);
         $rsms = XDb::xSql(
-            "SET @r = 1;
+            "
             SELECT * FROM
             (
-                SELECT *,@r:=@r+1 row FROM (
-
-                    SELECT cache_id, wp_oc, DATE_FORMAT(date_created,'%d-%m-%Y') data
-                    FROM caches
-                    WHERE user_id= ? AND status <> 4 AND status <> 5 AND status <> 6 AND type <> 6
-                    ORDER BY
-                        YEAR(`date_created`) ASC,
-                        MONTH(`date_created`) ASC,
-                        DAY(`date_created`) ASC,
-                        HOUR(`date_created`) ASC
-
-                ) B
+                SELECT cache_id, wp_oc, DATE_FORMAT(date_created,'%d-%m-%Y') as data, @row_num := @row_num + 1 AS row_num
+                    FROM caches,
+                    (
+                        SELECT @row_num := 1
+                    ) B
+                WHERE user_id= ? AND status <> 4 AND status <> 5 AND status <> 6 AND type <> 6
+                ORDER BY
+                YEAR(`date_created`) ASC,
+                MONTH(`date_created`) ASC,
+                DAY(`date_created`) ASC,
+                HOUR(`date_created`) ASC
             ) A
-            WHERE row=2 OR row % $milestone =1 ORDER BY row ASC", $user_id);
+            WHERE row_num=2 OR row_num % {$milestone} =1 ORDER BY row_num ASC",
+            $user_id
+        );
 
         $rsms->nextRowset(); //to switch to second query results :)
-        while( $rms = XDb::xFetchArray($rsms)) {
-            $content .= '<tr> <td>' . ($rms['row']-1) . '</td><td>' . $rms['data'] . '</td><td><a class="links" href="viewcache.php?cacheid=' . $rms['cache_id'] . '">' . $rms['wp_oc'] . '</a></td></tr>';
+
+        while ($rms = XDb::xFetchArray($rsms)) {
+            $content .= '<tr> <td>' . ($rms['row_num']-1) . '</td><td>' . $rms['data'] . '</td><td><a class="links" href="viewcache.php?cacheid=' . $rms['cache_id'] . '">' . $rms['wp_oc'] . '</a></td></tr>';
         }
 
         $content .= '</table>';
@@ -873,6 +876,7 @@ function buildGeocacheHtml(GeoCache $geocache, $html)
     }
     $html = mb_ereg_replace('{cachename}', htmlspecialchars($geocache->getCacheName(), ENT_COMPAT, 'UTF-8'), $html);
     $html = mb_ereg_replace('{wpname}', htmlspecialchars($geocache->getWaypointId(), ENT_COMPAT, 'UTF-8'), $html);
+
     return $html;
 }
 
