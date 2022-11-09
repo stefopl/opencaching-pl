@@ -1,26 +1,18 @@
 <?php
-$secret = "dupa231";
+$secret = "opencaching2022";
 include('commons.php');
 header('Content-Type: application/xhtml+xml; charset=utf-8');
 echo '<?xml version="1.0" encoding="utf-8"?'.">\n";
 echo '<?xml-stylesheet type="text/css" href="style.css"?'.">\n";
 
-if (get_magic_quotes_gpc()) {
-function stripslashes_deep($value)
-{
-$value = is_array($value) ?
-array_map('stripslashes_deep', $value) :
-stripslashes($value);
-
-return $value;
+function stripslashes_from_strings_only( $value ) {
+    return is_string( $value ) ? stripslashes( $value ) : $value;
 }
 
-$_POST = array_map('stripslashes_deep', $_POST);
-$_GET = array_map('stripslashes_deep', $_GET);
-$_COOKIE = array_map('stripslashes_deep', $_COOKIE);
-$_REQUEST = array_map('stripslashes_deep', $_REQUEST);
-}
-
+$_POST = array_map('stripslashes_from_strings_only', $_POST);
+$_GET = array_map('stripslashes_from_strings_only', $_GET);
+$_COOKIE = array_map('stripslashes_from_strings_only', $_COOKIE);
+$_REQUEST = array_map('stripslashes_from_strings_only', $_REQUEST);
 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
@@ -74,29 +66,9 @@ $_REQUEST = array_map('stripslashes_deep', $_REQUEST);
 
             <?php
 
-            $options = array("input-encoding" => "utf8", "output-encoding" => "utf8", "output-xhtml" => true, "doctype" => "omit", "show-body-only" => true, "char-encoding" => "utf8", "quote-ampersand" => true, "quote-nbsp" => true);
-            $text = $_POST['text'];
-            //$text = preg_replace('~&#([0-9]+);~e', 'chr("\\1")', $text);
-            #$text = preg_replace('~&#x([0-9a-fA-F]+);~ei', 'chr(hexdec("\\1"))', $text);
-            //$text = mb_convert_encoding( $text, "utf-8", "HTML-ENTITIES" );
+            $text = isset($_POST['text']) ?? "";
 
-            //decode decimal HTML entities added by web browser
-            $text = preg_replace('/&#\d{2,5};/ue', "utf8_entity_decode('$0')", $text );
-            //decode hex HTML entities added by web browser
-            $text = preg_replace('/&#x([a-fA-F0-7]{2,8});/ue', "utf8_entity_decode('&#'.hexdec('$1').';')", $text );
-
-            //callback function for the regex
-            function utf8_entity_decode($entity){
-            $convmap = array(0x0, 0x10000, 0, 0xfffff);
-            return "ż";
-            // return mb_decode_numericentity($entity, $convmap, 'UTF-8');
-            }
-
-
-            $tidy =  tidy_parse_string(html_entity_decode($text, ENT_NOQUOTES, "UTF-8"), $options);
-            tidy_clean_repair($tidy);
-
-
+            $tidy =  htmlspecialchars($text);
 
             function iterate_over($node)
             {

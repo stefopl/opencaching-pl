@@ -14,7 +14,7 @@ if (!ApplicationContainer::GetAuthorizedUser()) {
     $tplname = 'logbook';
 }
 
-$secret = "dupa231"; //kojoty: this is not my idea - I copied
+$secret = "opencaching2022";
 tpl_set_var('encrypted_message', encrypt($_GET['logbook_type'] . " This is a secret message", $secret));
 
 tpl_BuildTemplate();
@@ -22,9 +22,16 @@ tpl_BuildTemplate();
 
 
 
-function encrypt($text, $key)
-{
-    $iv_size = mcrypt_get_iv_size(MCRYPT_RIJNDAEL_256, MCRYPT_MODE_ECB);
-    $iv = mcrypt_create_iv($iv_size, MCRYPT_RAND);
-    return base64_encode(mcrypt_encrypt(MCRYPT_RIJNDAEL_256, $key, $text, MCRYPT_MODE_ECB, $iv));
+function encrypt($data, $password){
+    $iv = substr(sha1(mt_rand()), 0, 16);
+    $password = sha1($password);
+
+    $salt = sha1(mt_rand());
+    $saltWithPassword = hash('sha256', $password.$salt);
+
+    $encrypted = openssl_encrypt(
+        "$data", 'aes-256-cbc', "$saltWithPassword", null, $iv
+    );
+    $msg_encrypted_bundle = "$iv:$salt:$encrypted";
+    return base64_encode($msg_encrypted_bundle);
 }

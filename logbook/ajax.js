@@ -76,7 +76,7 @@ var AJAX =
 *
 **/
 
-AIM = {
+var AIM = {
 
     frame : function(c) {
 
@@ -124,4 +124,4 @@ AIM = {
         }
     }
 
-}
+};

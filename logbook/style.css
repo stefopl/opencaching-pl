@@ -14,6 +14,10 @@ form {
 
 }
 
+#content{
+    padding: 3em;
+}
+
 #validatorarea {
     width: 600px;
     height: 200px;
