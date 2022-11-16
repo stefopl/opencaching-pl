@@ -330,8 +330,12 @@ class OcPicture extends BaseObject
             if (preg_match('/\.(?:png|jpg|jpeg|gif|mp4)$/',$r ,$match)){
 
                 if (strpos($this->getFullImgUrl(), '://') === false) {
+
                     $r2 = "https://opencaching.pl/".$this->getFullImgUrl();
-                    $data = file_get_contents($r2, false);
+                    if(intval(substr(get_headers($r2)[0], 9, 3)) == HttpCode::STATUS_OK){
+                        $data = file_get_contents($r2, false);
+                    }
+
                 }else{
                     $r2 = $this->getFullImgUrl();
                     $data = file_get_contents($r2, false);
