@@ -233,7 +233,7 @@ $translations = [
     'lock' => 'Zablokuj',
     'unlock' => 'Odblokuj',
     'first_cache' => 'Możesz zapoznać się jak wybrać typ skrzynki, wielkość, atrybuty itp. czytając artykuł z <a href="{wiki_link_cacheParams}" target="_blank">podstawowymi informacjami</a>.',
-    'first_cache_approvement' => 'Ponieważ jest to jedna z trzech pierwszych Twoich skrzynek, będzie ona widoczna dla innych, gdy zostanie zaakceptowana przez Zespół {site_name}.',
+    'first_cache_approvement' => 'Ponieważ jest to jedna z trzech pierwszych Twoich skrzynek, będzie ona możliwa do opublikowania, gdy zostanie zaakceptowana przez Zespół {site_name}.',
     'all_cache_approvement' => 'Skrzynka będzie widoczna dla innych, gdy zostanie zaakceptowana przez Zespół {site_name}.',
     'name_label' => 'Nazwa',
     'cache_type' => 'Typ skrzynki',
@@ -2717,6 +2717,9 @@ $translations = [
     'startPage_newSearchesDesc' => 'Liczba poszukiwań przez ostatnie 30 dni',
     'startPage_newoRecom' => 'Nowych rekomendacji',
     'startPage_newoRecomDesc' => 'Liczba przyznanych ostatnio rekomendacji (ostatnie 30 dni)',
+    'startPage_lastYearActiveUsers' => 'Użytkownicy ze znalezieniem w roku',
+    'startPage_LastYearActiveUsersDesc' => 'Użytkownicy z przynajmniej jednym znalezieniem w ciągu ostatnich 365 dni',
+
     'startPage_showMore' => 'Pokaż więcej',
     'startPage_latestCachesList' => 'Najnowsze skrzynki',
     'startPage_latestCacheSets' => 'Najnowsze GeoŚciezki',
