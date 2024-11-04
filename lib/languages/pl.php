@@ -233,7 +233,7 @@ $translations = [
     'lock' => 'Zablokuj',
     'unlock' => 'Odblokuj',
     'first_cache' => 'Możesz zapoznać się jak wybrać typ skrzynki, wielkość, atrybuty itp. czytając artykuł z <a href="{wiki_link_cacheParams}" target="_blank">podstawowymi informacjami</a>.',
-    'first_cache_approvement' => 'Ponieważ jest to jedna z trzech pierwszych Twoich skrzynek, będzie ona widoczna dla innych, gdy zostanie zaakceptowana przez Zespół {site_name}.',
+    'first_cache_approvement' => 'Ponieważ jest to jedna z trzech pierwszych Twoich skrzynek, będzie ona możliwa do opublikowania, gdy zostanie zaakceptowana przez Zespół {site_name}.',
     'all_cache_approvement' => 'Skrzynka będzie widoczna dla innych, gdy zostanie zaakceptowana przez Zespół {site_name}.',
     'name_label' => 'Nazwa',
     'cache_type' => 'Typ skrzynki',
@@ -1845,6 +1845,7 @@ $translations = [
     'region_03' => 'Region na podstawie danych lokalnych (NUTS)',
     'region_04' => 'Region na podstawie Google Geocoding API',
     'region_mapQuest' => 'Region na podstawie MapQuest API',
+    'region_nominatim' => 'Region na podstawie Nominatim (OpenStreetMap)',
 
     'cacheType_1' => 'Tradycyjna',
     'cacheType_2' => 'Multicache',
