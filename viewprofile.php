@@ -18,7 +18,6 @@ use src\Utils\Debug\StopWatch;
 use src\Utils\Text\Formatter;
 use src\Utils\Uri\OcCookie;
 use src\Utils\Uri\SimpleRouter;
-use src\Utils\View\View;
 
 const ADMINNOTES_PER_PAGE = 10;
 
@@ -65,22 +64,17 @@ $checkBadges = OcCookie::getOrDefault('checkBadges', 1);
 $checkGeoPaths = OcCookie::getOrDefault('checkGeoPaths', 1);
 $checkMilestones = OcCookie::getOrDefault('checkMilestones', 1);
 
-$cache_line = '<li style="margin: -0.9em 0px 0.9em 0px; padding: 0px 0px 0px 10px; list-style-type: none; line-height: 1.6em; font-size: 12px;">{cacheimage}&nbsp;{cachestatus} &nbsp; {date} &nbsp; <a class="links" href="viewcache.php?cacheid={cacheid}">{cachename}</a>&nbsp;&nbsp;<strong>[{wpname}]</strong></li>';
-$cache_notpublished_line = '<li style="margin: -0.9em 0px 0.9em 0px; padding: 0px 0px 0px 10px; list-style-type: none; line-height: 1.6em; font-size: 115%;">{cacheimage}&nbsp;{cachestatus} &nbsp; <a class="links" href="editcache.php?cacheid={cacheid}">{date}</a> &nbsp; <a class="links" href="viewcache.php?cacheid={cacheid}">{cachename}</a>&nbsp;&nbsp;<strong>[{wpname}]</strong></li>';
-$log_line = '<li style="margin: -0.9em 0px 0.9em 0px; padding: 0px 0px 0px 10px; list-style-type: none; line-height: 1.6em; font-size: 12px;">{gkimage}&nbsp;{rateimage}&nbsp; {logimage} &nbsp; <a class="links" href="viewcache.php?cacheid={cacheid}"><img src="/images/{cacheimage}" border="0" alt=""></a>&nbsp; {date} &nbsp; <a class="links" href="viewlogs.php?logid={logid}" onmouseover="Tip(\'{logtext}\', PADDING,5, WIDTH,280,SHADOW,true)" onmouseout="UnTip()">{cachename}</a>&nbsp;&nbsp;<strong>[{wpname}]</strong></li>';
-$cache_line_my_caches = '<li style="margin: -0.9em 0px 0.9em 0px; padding: 0px 0px 0px 10px; list-style-type: none; line-height: 1.6em; font-size: 12px;">{gkimage}&nbsp; {rateimage} &nbsp;{logimage} &nbsp; <a class="links" href="viewcache.php?cacheid={cacheid}"><img src="/images/{cacheimage}" border="0" alt=""></a>&nbsp; {date} &nbsp; <a class="links" href="viewlogs.php?logid={logid}" onmouseover="Tip(\'{logtext}\', PADDING,5, WIDTH,280,SHADOW,true)" onmouseout="UnTip()">{cachename}</a>&nbsp;&nbsp;<strong>[{wpname}]</strong>&nbsp;<img src="/images/blue/arrow.png" alt="">&nbsp; <a class="links" href="viewprofile.php?userid={userid}">{username}</a></li>';
+$cache_line = '<li style="margin: -0.9em 0 0.9em 0; padding: 0 0 0 10px; list-style-type: none; line-height: 1.6em; font-size: 12px;">{cacheimage}&nbsp;{cachestatus} &nbsp; {date} &nbsp; <a class="links" href="viewcache.php?cacheid={cacheid}">{cachename}</a>&nbsp;&nbsp;<strong>[{wpname}]</strong></li>';
+$cache_notpublished_line = '<li style="margin: -0.9em 0 0.9em 0; padding: 0 0 0 10px; list-style-type: none; line-height: 1.6em; font-size: 115%;">{cacheimage}&nbsp;{cachestatus} &nbsp; <a class="links" href="editcache.php?cacheid={cacheid}">{date}</a> &nbsp; <a class="links" href="viewcache.php?cacheid={cacheid}">{cachename}</a>&nbsp;&nbsp;<strong>[{wpname}]</strong></li>';
+$log_line = '<li style="margin: -0.9em 0 0.9em 0; padding: 0 0 0 10px; list-style-type: none; line-height: 1.6em; font-size: 12px;">{gkimage}&nbsp;{rateimage}&nbsp; {logimage} &nbsp; <a class="links" href="viewcache.php?cacheid={cacheid}"><img src="/images/{cacheimage}" border="0" alt=""></a>&nbsp; {date} &nbsp; <a class="links" href="viewlogs.php?logid={logid}" onmouseover="Tip(\'{logtext}\', PADDING,5, WIDTH,280,SHADOW,true)" onmouseout="UnTip()">{cachename}</a>&nbsp;&nbsp;<strong>[{wpname}]</strong></li>';
+$cache_line_my_caches = '<li style="margin: -0.9em 0 0.9em 0; padding: 0 0 0 10px; list-style-type: none; line-height: 1.6em; font-size: 12px;">{gkimage}&nbsp; {rateimage} &nbsp;{logimage} &nbsp; <a class="links" href="viewcache.php?cacheid={cacheid}"><img src="/images/{cacheimage}" border="0" alt=""></a>&nbsp; {date} &nbsp; <a class="links" href="viewlogs.php?logid={logid}" onmouseover="Tip(\'{logtext}\', PADDING,5, WIDTH,280,SHADOW,true)" onmouseout="UnTip()">{cachename}</a>&nbsp;&nbsp;<strong>[{wpname}]</strong>&nbsp;<img src="/images/blue/arrow.png" alt="">&nbsp; <a class="links" href="viewprofile.php?userid={userid}">{username}</a></li>';
 
 // check for old-style parameters
-if (isset($_REQUEST['userid'])) {
-    $user_id = $_REQUEST['userid'];
-} else {
-    $user_id = $loggedUser->getUserId();
-}
+$user_id = $_REQUEST['userid'] ?? $loggedUser->getUserId();
 
 require __DIR__ . '/src/Views/lib/icons.inc.php';
 $tplname = 'viewprofile';
 
-/** @var View */
 $view = tpl_getView();
 $view->setVar('userid', $user_id);
 $view->loadJQuery();
@@ -158,8 +152,8 @@ if ($user_id == $loggedUser->getUserId()) {
     // new with recommendations
     $guides = OcConfig::instance()->getGuidesConfig();
 
-    if ($nrecom >= $guides['guideGotRecommendations'] && ! $user->isGuide() && $user_id == $loggedUser->getUserId()) {
-        $guide_info = '<div class="content-title-noshade box-blue"><table><tr><td><img style="margin-right: 10px;margin-left:10px;" src="/images/blue/info-b.png" alt="' . tr('guide') . '"></td><td>
+    if ($nrecom >= $guides['guideGotRecommendations'] && ! $user->isGuide()) {
+        $guide_info = '<div class="content-title-noshade box-blue"><table><tr><td><img style="margin-right: 10px;margin-left:10px;" src="/images/blue/info-b.png" alt="guide"></td><td>
             <span style="font-size:12px;"> ' . tr('guru_17') . '
             <a class="links" href="myprofile.php?action=change"> ' . tr('guru_18') . '</a>.
             ' . tr('guru_19') . ' <a class="links" href="/guide">' . tr('guru_20') . '</a>.</span>
@@ -175,7 +169,7 @@ StopWatch::click(__LINE__);
  *   2 = between one and 6 months
  *   3 = between 6 and 12 months
  *   4 = more than 12 months
- *   5 = unknown, we need this, because we dont
+ *   5 = unknown, we need this, because we don't
  *       know the last_login of all accounts.
  *       Can be removed after one year.
  *   6 = user account is not active
@@ -294,7 +288,7 @@ if ($seek == 0) {
 
     StopWatch::click(__LINE__);
 
-    // !!! LIMIT 3: logically should be limit 1 but LIMIT 3 has much better performance
+    // !!! LIMIT 3: logically should be LIMIT 1 but LIMIT 3 has much better performance
     // more detail for example here: https://stackoverflow.com/questions/17747871/why-is-mysql-slow-when-using-limit-in-my-query
     $days_since_first_find = XDb::xMultiVariableQueryValue(
         'SELECT datediff(now(), date) as old FROM cache_logs
@@ -427,52 +421,52 @@ if ($seek == 0) {
     $content .= '<p><span class="content-title-noshade txt-blue08">' . tr('most_caches_find_day') . ':</span> <strong>' . sprintf('%u', $rcNumber) . '</strong></p>';
     $content .= '<p><span class="content-title-noshade txt-blue08">' . tr('latest_cache') . ':</span>&nbsp;&nbsp;';
 
-    if ($rfc2 != false) {
+    if ($rfc2) {
         $content .= '<strong><a class="links" href="viewcache.php?cacheid=' . $rfc2['cache_id'] . '">' . $rfc2['cache_wp'] . '</a>&nbsp;&nbsp;</strong>(' . $rfc2['data'] . ')</p>';
     } else {
         $content .= '</p>';
     }
 
     if ($found >= 10) {
-        if (OcConfig::areGeopathsSupported()) {
-            $content .= buildOpenCloseButton($user_id, $checkMilestones, 'milestones.png', 'checkMilestones', tr('milestones_title'), tr('milestones_title'));
+        $content .= buildOpenCloseButton($user_id, $checkMilestones, 'milestones.png', 'checkMilestones', tr('milestones_title'), tr('milestones_title'));
 
-            if ($checkMilestones) {
-                $content .= '<br><table style="border-collapse: collapse; font-size: 110%;" width="250" border="1"><tr><td colspan="3" align="center" bgcolor="#DBE6F1"><b>' . tr('milestones') . '</b></td> </tr><tr><td bgcolor="#EEEDF9"><b> Nr </b></td> <td bgcolor="#EEEDF9"><b>' . tr('date') . '</b></td> <td bgcolor="#EEEDF9"><b>' . tr('cache') . '</b> </td> </tr>';
+        if ($checkMilestones) {
+            $content .= '<br><table style="border-collapse: collapse; font-size: 110%;" width="250" border="1"><tr><td colspan="3" align="center" bgcolor="#DBE6F1"><b>' . tr('milestones') . '</b></td> </tr><tr><td bgcolor="#EEEDF9"><b> Nr </b></td> <td bgcolor="#EEEDF9"><b>' . tr('date') . '</b></td> <td bgcolor="#EEEDF9"><b>' . tr('cache') . '</b> </td> </tr>';
 
-                if ($found > 101) {
-                    $milestone = 100;
-                } else {
-                    $milestone = 10;
-                }
+            $rsms = XDb::xSql(
+                'SET @r = 0;
+            WITH RECURSIVE seq AS (
+                SELECT 1 AS number
+                UNION ALL
+                SELECT CASE
+                    WHEN number < 10 THEN number + 9
+                    WHEN number >= 10 AND number < 100 THEN number + 10
+                    WHEN number >= 100 AND number < 1000 THEN number + 100
+                    WHEN number >= 1000 AND number < 10000 THEN number + 1000
+                    WHEN number >= 10000 AND number < 100000 THEN number + 10000
+                    WHEN number >= 100000 AND number < 1000000 THEN number + 100000
+                    ELSE number + 1000000
+                END
+                FROM seq
+                WHERE number < 10000000
+            )
 
-                $rsms = XDb::xSql(
-                    "SET @r = 1;
-                SELECT * FROM
-                (
-                    SELECT *,@r:=@r+1 row FROM (
-        
-                        SELECT cache_logs.cache_id cache_id, DATE_FORMAT(cache_logs.date,'%d-%m-%Y') data, caches.wp_oc cache_wp
-                        FROM cache_logs, caches
-                        WHERE caches.cache_id=cache_logs.cache_id AND cache_logs.type='1'
-                        AND cache_logs.user_id= ? AND cache_logs.deleted='0'
-                        ORDER BY cache_logs.date ASC
-        
-                    ) B
-                ) A
-                WHERE row=2 OR row % {$milestone} =1 ORDER BY row ASC",
-                    $user_id
-                );
-
-                $rsms->nextRowset(); //to switch to second query results :)
-
-                while ($rms = XDb::xFetchArray($rsms)) {
-                    $content .= '<tr> <td>' . ($rms['row'] - 1) . '</td><td>' . $rms['data'] . '</td><td><a class="links" href="viewcache.php?cacheid=' . $rms['cache_id'] . '">' . $rms['cache_wp'] . '</a></td></tr>';
-                }
-
-                $content .= '</table>';
-                XDb::xFreeResults($rsms);
+            SELECT * FROM (
+                SELECT cache_logs.cache_id cache_id, DATE_FORMAT(cache_logs.date,"%d-%m-%Y") `data`, caches.wp_oc cache_wp, @r:=@r+1 `row`
+                    FROM cache_logs, caches
+                    WHERE caches.cache_id=cache_logs.cache_id AND cache_logs.type=1 AND cache_logs.user_id=? AND cache_logs.deleted=0
+                    ORDER BY cache_logs.date ASC
+                ) c
+                JOIN seq s ON c.row = s.number;',
+                $user_id
+            );
+            $rsms->nextRowset();
+            while ($rms = XDb::xFetchArray($rsms)) {
+                $content .= '<tr> <td>' . ($rms['row']) . '</td><td>' . $rms['data'] . '</td><td><a class="links" href="viewcache.php?cacheid=' . $rms['cache_id'] . '">' . $rms['cache_wp'] . '</a></td></tr>';
             }
+
+            $content .= '</table>';
+            XDb::xFreeResults($rsms);
         }
     } // $found > 10
 
@@ -483,7 +477,7 @@ if ($seek == 0) {
     //ftf Ajax
     $content .= '<hr><center>
     <a href="javascript:void(0);" onclick="ajaxGetFTF();" id="showFtfBtn">' . tr('viewprofileFTF') . '</a>
-    <center><img style="display:none" id="commentsLoader" src="images/misc/ptPreloader.gif"></center>
+    <center><img style="display:none" id="commentsLoader" src="images/misc/ptPreloader.gif" alt=""></center>
     <div id="ftfDiv" style="display:none"></div></center><input type="hidden" id="userId" value="' . $user_id . '">';
 
     //------------ begin owner section
@@ -539,15 +533,14 @@ if ($seek == 0) {
     if (XDb::xNumRows($rs_logs) != 0) {
         $content .= '<p>&nbsp;</p><p><span class="content-title-noshade txt-blue08">' . tr('latest_logs_by_user') . ':</span>&nbsp;&nbsp;<img src="/images/blue/arrow.png" alt=""> [<a class="links" href="my_logs.php?userid=' . $user_id . '">' . tr('show_all') . '</a>] ';
         $content .= ' <a class="links" href="/rss/my_logs.xml?userid=' . $user_id . '"><img src="/images/misc/rss.svg" class="icon16" alt="' . tr('rss_icon') . '"></a>';
-        $content .= '</p><br><div><ul style="margin: -0.9em 0px 0.9em 0px; padding: 0px 0px 0px 10px; list-style-type: none; line-height: 1.2em; font-size: 115%;">';
+        $content .= '</p><br><div><ul style="margin: -0.9em 0 0.9em 0; padding: 0 0 0 10px; list-style-type: none; line-height: 1.2em; font-size: 115%;">';
 
         while ($record_logs = XDb::xFetchArray($rs_logs)) {
             $tmp_log = $log_line;
-
 //            if ($record_logs['geokret_in'] != '0') {
 //                $tmp_log = mb_ereg_replace('{gkimage}', '<img src="images/gk.png" border="0" alt="' . tr('geokret') . '" title="' . tr('geokret') . '">', $tmp_log);
 //            } else {
-                $tmp_log = mb_ereg_replace('{gkimage}', '<img src="images/rating-star-empty.png" border="0" alt="">', $tmp_log);
+            $tmp_log = mb_ereg_replace('{gkimage}', '<img src="images/rating-star-empty.png" border="0" alt="">', $tmp_log);
 //            }
 
             if ($record_logs['recommended'] == 1 && $record_logs['log_type'] == 1) {
@@ -771,42 +764,37 @@ if ($user->getHiddenGeocachesCount() == 0) {
     if ($total_created_and_owned_caches >= 10) {
         $content .= '<br><table style="border-collapse: collapse; font-size: 110%;" width="250" border="1"><tr><td colspan="3" align="center" bgcolor="#DBE6F1"><b>' . tr('milestones') . '</b></td> </tr><tr><td bgcolor="#EEEDF9"><b> Nr </b></td> <td bgcolor="#EEEDF9"><b>' . tr('date') . '</b></td> <td bgcolor="#EEEDF9"><b>' . tr('cache') . '</b> </td> </tr>';
 
-        if ($total_created_and_owned_caches > 101) {
-            $milestone = 100;
-        } else {
-            $milestone = 10;
-        }
+        $rsms = XDb::xSql('
+            SET @r = 0;
+            WITH RECURSIVE seq AS (
+                SELECT 1 AS number
+                UNION ALL
+                SELECT CASE
+                    WHEN number < 10 THEN number + 9
+                    WHEN number >= 10 AND number < 100 THEN number + 10
+                    WHEN number >= 100 AND number < 1000 THEN number + 100
+                    WHEN number >= 1000 AND number < 10000 THEN number + 1000
+                    WHEN number >= 10000 AND number < 100000 THEN number + 10000
+                    WHEN number >= 100000 AND number < 1000000 THEN number + 100000
+                    ELSE number + 1000000
+                END
+                FROM seq
+                WHERE number < 10000000
+            )
 
-        /*
-         * I don't know why - probably this is a bug,
-         * but without unset($rsms) query below don't return any results
-         */
-        unset($rsms);
-        $rsms = XDb::xSql(
-            "SET @r = 1;
-            SELECT * FROM
-            (
-                SELECT *,@r:=@r+1 row FROM (
-
-                    SELECT cache_id, wp_oc, DATE_FORMAT(date_created,'%d-%m-%Y') data
+            SELECT * FROM (
+                SELECT cache_id, wp_oc, DATE_FORMAT(date_created,"%d-%m-%Y") `data`, @r:=@r+1 `row`
                     FROM caches
-                    WHERE user_id= ? AND status <> 4 AND status <> 5 AND status <> 6 AND type <> 6
-                    ORDER BY
-                        YEAR(`date_created`) ASC,
-                        MONTH(`date_created`) ASC,
-                        DAY(`date_created`) ASC,
-                        HOUR(`date_created`) ASC
-
-                ) B
-            ) A
-            WHERE row=2 OR row % {$milestone} =1 ORDER BY row ASC",
-            $user_id
-        );
+                    WHERE user_id=? AND status NOT IN (4, 5, 6) AND type <> 6
+                    ORDER BY `date_created`
+			) c
+            JOIN seq s ON c.row = s.number;
+        ', $user_id);
 
         $rsms->nextRowset(); //to switch to second query results :)
 
         while ($rms = XDb::xFetchArray($rsms)) {
-            $content .= '<tr> <td>' . ($rms['row'] - 1) . '</td><td>' . $rms['data'] . '</td><td><a class="links" href="viewcache.php?cacheid=' . $rms['cache_id'] . '">' . $rms['wp_oc'] . '</a></td></tr>';
+            $content .= '<tr> <td>' . ($rms['row']) . '</td><td>' . $rms['data'] . '</td><td><a class="links" href="viewcache.php?cacheid=' . $rms['cache_id'] . '">' . $rms['wp_oc'] . '</a></td></tr>';
         }
 
         $content .= '</table>';
@@ -868,7 +856,7 @@ if ($user->getHiddenGeocachesCount() == 0) {
         $content .= '<p>&nbsp;</p><p><span class="content-title-noshade txt-blue08">' . tr('latest_logs_in_caches') . ':</span> <img src="/images/blue/arrow.png" alt=""> [<a class="links" href="mycaches_logs.php?userid=' . $user_id . '">' . tr('show_all') . '</a>] ';
         $content .= ' <a class="links" href="/rss/mycaches_logs.xml?userid=' . $user_id . '"><img src="/images/misc/rss.svg" class="icon16" alt="' . tr('rss_icon') . '"></a>';
 
-        $content .= '</p><br><div><ul style="margin: -0.9em 0px 0.9em 0px; padding: 0px 0px 0px 10px; list-style-type: none; line-height: 1.6em; font-size: 12px;">';
+        $content .= '</p><br><div><ul style="margin: -0.9em 0 0.9em 0; padding: 0 0 0 10px; list-style-type: none; line-height: 1.6em; font-size: 12px;">';
 
         while ($record_logs = XDb::xFetchArray($rs_logs)) {
             $tmp_log = $cache_line_my_caches;
@@ -876,7 +864,7 @@ if ($user->getHiddenGeocachesCount() == 0) {
 //            if ($record_logs['geokret_in'] != '0') {
 //                $tmp_log = mb_ereg_replace('{gkimage}', '<img src="images/gk.png" border="0" alt="" title="' . tr('geokret') . '">', $tmp_log);
 //            } else {
-                $tmp_log = mb_ereg_replace('{gkimage}', '<img src="images/rating-star-empty.png" border="0" alt="">', $tmp_log);
+            $tmp_log = mb_ereg_replace('{gkimage}', '<img src="images/rating-star-empty.png" border="0" alt="">', $tmp_log);
 //            }
 
             if ($record_logs['recommended'] == 1 && $record_logs['log_type'] == 1) {
@@ -935,7 +923,7 @@ if ($user_id == $loggedUser->getUserId() || $loggedUser->hasOcTeamRole()) {
     $geocachesNotPublished = $user->getGeocachesNotPublished();
 
     if ($geocachesNotPublished->count() > 0) {
-        $content .= '<p><span class="content-title-noshade txt-blue08">' . tr('not_yet_published') . ':</span></p><br><div><ul style="margin: -0.9em 0px 0.9em 0px; padding: 0px 0px 0px 10px; list-style-type: none; line-height: 1.2em; font-size: 115%;">';
+        $content .= '<p><span class="content-title-noshade txt-blue08">' . tr('not_yet_published') . ':</span></p><br><div><ul style="margin: -0.9em 0 0.9em 0; padding: 0 0 0 10px; list-style-type: none; line-height: 1.2em; font-size: 115%;">';
 
         foreach ($geocachesNotPublished as $geocache) {
             $content .= "\n" . buildGeocacheHtml($geocache, $cache_notpublished_line);
@@ -946,7 +934,7 @@ if ($user_id == $loggedUser->getUserId() || $loggedUser->hasOcTeamRole()) {
     $waitAproveGeocaches = $user->getGeocachesWaitApprove();
 
     if ($waitAproveGeocaches->count() > 0) {
-        $content .= '<br><p><span class="content-title-noshade txt-blue08">' . tr('caches_waiting_approve') . ':</span></p><br><div><ul style="margin: -0.9em 0px 0.9em 0px; padding: 0px 0px 0px 10px; list-style-type: none; line-height: 1.2em; font-size: 115%;">';
+        $content .= '<br><p><span class="content-title-noshade txt-blue08">' . tr('caches_waiting_approve') . ':</span></p><br><div><ul style="margin: -0.9em 0 0.9em 0; padding: 0 0 0 10px; list-style-type: none; line-height: 1.2em; font-size: 115%;">';
 
         foreach ($waitAproveGeocaches as $geocache) {
             $content .= "\n" . buildGeocacheHtml($geocache, $cache_line);
@@ -957,7 +945,7 @@ if ($user_id == $loggedUser->getUserId() || $loggedUser->hasOcTeamRole()) {
     $geocachesBlocked = $user->getGeocachesBlocked();
 
     if ($geocachesBlocked->count() > 0) {
-        $content .= '<br><p><span class="content-title-noshade txt-blue08">' . tr('caches_blocked') . ':</span></p><br><div><ul style="margin: -0.9em 0px 0.9em 0px; padding: 0px 0px 0px 10px; list-style-type: none; line-height: 1.2em; font-size: 115%;">';
+        $content .= '<br><p><span class="content-title-noshade txt-blue08">' . tr('caches_blocked') . ':</span></p><br><div><ul style="margin: -0.9em 0 0.9em 0; padding: 0 0 0 10px; list-style-type: none; line-height: 1.2em; font-size: 115%;">';
 
         foreach ($geocachesBlocked as $geocache) {
             $content .= "\n" . buildGeocacheHtml($geocache, $cache_line);
@@ -985,17 +973,16 @@ $view->buildView();
  * generate html string displaying geoPaths completed by user (power trail) medals
  * @author Andrzej Łza Woźniak, 2013-11-23
  */
-function buildPowerTrailIcons(ArrayObject $powerTrails)
+function buildPowerTrailIcons(ArrayObject $powerTrails): string
 {
     $allowedPtStatus = [
         PowerTrail::STATUS_OPEN, PowerTrail::STATUS_INSERVICE, PowerTrail::STATUS_CLOSED,
     ];
     $result = '<table width="100%"><tr><td>';
-
     // @var $powertrail PowerTrail
     foreach ($powerTrails as $powertrail) {
         if (in_array($powertrail->getStatus(), $allowedPtStatus)) {
-            $result .= '<div class="ptMedal"><table style="padding-top: 7px;" align="center" height="51" width="51"><tr><td width=52 height=52 valign="center" align="center"><a title="' . $powertrail->getName() . '" href="powerTrail.php?ptAction=showSerie&ptrail=' . $powertrail->getId() . '"><img class="imgPtMedal" src="' . $powertrail->getImage() . '"></a></td></tr><tr><td align="center"><img src="' . $powertrail->getFootIcon() . '"></td></tr></table></div><div class="ptMedalSpacer"></div>';
+            $result .= '<div class="ptMedal"><table style="padding-top: 7px;" align="center" height="51" width="51"><tr><td width=52 height=52 valign="center" align="center"><a title="' . $powertrail->getName() . '" href="powerTrail.php?ptAction=showSerie&ptrail=' . $powertrail->getId() . '"><img class="imgPtMedal" src="' . $powertrail->getImage() . '" alt=""></a></td></tr><tr><td align="center"><img src="' . $powertrail->getFootIcon() . '" alt=""></td></tr></table></div><div class="ptMedalSpacer"></div>';
         }
     }
 
@@ -1004,7 +991,6 @@ function buildPowerTrailIcons(ArrayObject $powerTrails)
 
 function buildGeocacheHtml(GeoCache $geocache, $html)
 {
-    $ocConfig = OcConfig::instance();
     $html = mb_ereg_replace('{cacheimage}', '<img src="' . $geocache->getCacheIcon() . '" width="16">', $html);
     $html = mb_ereg_replace('{cachestatus}', htmlspecialchars(tr($geocache->getStatusTranslationKey()), ENT_COMPAT, 'UTF-8'), $html);
     $html = mb_ereg_replace('{cacheid}', htmlspecialchars(urlencode($geocache->getCacheId()), ENT_COMPAT, 'UTF-8'), $html);
@@ -1015,12 +1001,11 @@ function buildGeocacheHtml(GeoCache $geocache, $html)
         $html = mb_ereg_replace('{date}', Formatter::date($geocache->getDateActivate()), $html);
     }
     $html = mb_ereg_replace('{cachename}', htmlspecialchars($geocache->getCacheName(), ENT_COMPAT, 'UTF-8'), $html);
-    $html = mb_ereg_replace('{wpname}', htmlspecialchars($geocache->getWaypointId(), ENT_COMPAT, 'UTF-8'), $html);
 
-    return $html;
+    return mb_ereg_replace('{wpname}', htmlspecialchars($geocache->getWaypointId(), ENT_COMPAT, 'UTF-8'), $html);
 }
 
-function buildMeritBadges($user_id)
+function buildMeritBadges($user_id): string
 {
     $meritBadgeCtrl = new MeritBadgeController();
     $userCategories = $meritBadgeCtrl->buildArrayUserCategories($user_id);
@@ -1045,7 +1030,7 @@ function buildMeritBadges($user_id)
             $element = '<div class="Badge-div-element-small">
         <a href="badge.php?badge_id={badge_id}&user_id={user_id}" onmouseover="Tip(\'{content_tip}\', PADDING,10)" onmouseout="UnTip()">
             <div class="Badge-pie-progress-small" role="progressbar" data-goal="{progresbar_curr_val}" data-trackcolor="#d9d9d9" data-barcolor="{progresbar_color}" data-barsize="{progresbar_size}" aria-valuemin="0" aria-valuemax="{progresbar_next_val}">
-            <div class="pie_progress__content"><img src="{picture}" class="Badge-pic-small" /><br>
+            <div class="pie_progress__content"><img src="{picture}" class="Badge-pic-small"  alt=""><br>
             </div>
             </div>
         </a>
@@ -1057,9 +1042,9 @@ function buildMeritBadges($user_id)
              <p style=\\'font-size:20px; font-weight:bold;\\'> {name} <br>\\
              <span style=\\'font-size:13px; font-weight:normal; font-style:italic;\\'> {short_desc} </span></p> \\
              <p style=\\'font-size:13px;font-weight:normal;\\'>\\"
-                . tr('merit_badge_level_name') . ': <b>{level_name}</b><br>\\'
-                . tr('merit_badge_number') . ': <b>{curr_val}</b><br>\\'
-                . tr('merit_badge_next_level_threshold') . ': <b>{next_val}</b><br>\\
+            . tr('merit_badge_level_name') . ': <b>{level_name}</b><br>\\'
+            . tr('merit_badge_number') . ': <b>{curr_val}</b><br>\\'
+            . tr('merit_badge_next_level_threshold') . ': <b>{next_val}</b><br>\\
              </p></div>',
                 $element
             );
@@ -1101,7 +1086,7 @@ function buildMeritBadges($user_id)
     return $content;
 }
 
-function buildOpenCloseButton($userid, $check, $pic, $field, $txt, $title)
+function buildOpenCloseButton($userid, $check, $pic, $field, $txt, $title): string
 {
     $content = "<form action='/viewprofile.php' style='display:inline;'>";
 
@@ -1109,7 +1094,7 @@ function buildOpenCloseButton($userid, $check, $pic, $field, $txt, $title)
                                 <table style='width: 100%; padding: 5px;'><tr><td>
                                 <p class='content-title-noshade-size1'>
                                 <img src='/images/blue/{$pic}' width='33' class='icon32' alt='{$title}' title='{$title}'>&nbsp;{$txt}"
-                                    . '</p></td>';
+                                . '</p></td>';
 
     $content .= "<td style='text-align: right'>
             <button type='submit' class='btn btn-primary btn-sm'>";
