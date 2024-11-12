@@ -22,6 +22,10 @@ class NutsLocation extends BaseObject
     private $codes = [];
     private $names = [];
 
+    protected static $regionLevelPreferenceByCountry = [
+        'RO' => [self::LEVEL_3, self::LEVEL_1, self::LEVEL_2],
+    ];
+
     public function __construct()
     {
         parent::__construct();
@@ -103,24 +107,28 @@ class NutsLocation extends BaseObject
      */
     public function getRegionName()
     {
+
         // try to detect region name in order 2-1-3 (NUTS-levels)
         // (smaller countries has e.g. only 3-level names)
-        if (!empty($this->codes[self::LEVEL_2])) {
-            $region = $this->names[self::LEVEL_2];
+        $priorityOrder = [self::LEVEL_2, self::LEVEL_1, self::LEVEL_3];
 
-        } elseif (!empty($this->codes[self::LEVEL_1])) {
-            $region = $this->names[self::LEVEL_1];
+        $countryCode = false;
 
-        } else {
-            if (!empty($this->codes[self::LEVEL_3])) {
-                $region = $this->names[self::LEVEL_3];
-            } else {
-                $region = '?';
-                // bug in NUTS data?! country present, no level names!?
-                //Debug::errorLog("NUTS data error? No code for ".$this->codes[self::LEVEL_COUNTRY]);
+        if (isset($this->codes[self::LEVEL_COUNTRY])) {
+            $countryCode = $this->codes[self::LEVEL_COUNTRY];
+        }
+
+        if ($countryCode && isset(self::$regionLevelPreferenceByCountry[$countryCode])) {
+            $priorityOrder = self::$regionLevelPreferenceByCountry[$countryCode];
+        }
+
+        foreach ($priorityOrder as $level) {
+            if (!empty($this->codes[$level])) {
+                return $this->names[$level];
             }
         }
-        return $region;
+
+        return '?';
     }
 
     /**
@@ -223,7 +231,14 @@ class NutsLocation extends BaseObject
      */
     public static function getRegionsListByCountryCode($countryCode)
     {
-        $countryCode .= '__'; // add sql wildcard (two letters)
+
+        if (isset(self::$regionLevelPreferenceByCountry[$countryCode])) {
+            $priorityLevel = self::$regionLevelPreferenceByCountry[$countryCode][0];
+            $countryCode .= str_repeat('_', $priorityLevel);
+        } else {
+            $countryCode .= '__';
+        }
+
         $db = self::db();
         return $db->dbResultFetchAll($db->multiVariableQuery(
             "SELECT code, name FROM nuts_codes
