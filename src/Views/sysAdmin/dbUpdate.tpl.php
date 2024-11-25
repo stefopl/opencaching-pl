@@ -11,7 +11,7 @@ use src\Utils\Uri\SimpleRouter;
 
 <?php if (!empty($view->messages)) { ?>
     <div style="color:brown; padding:0.5em 0 0.5em 0">
-        <p><?= nl2br($view->messages) ?></p>
+        <p style="font-family: monospace;"><?= nl2br($view->messages) ?></p>
     </div>
 <?php } ?>
 

@@ -75,7 +75,7 @@ class DbUpdates
      * @return bool success or failure
      * @throws Exception
      */
-    public function delete($uuid): bool
+    public static function delete($uuid): bool
     {
         $update = self::get($uuid);
 
