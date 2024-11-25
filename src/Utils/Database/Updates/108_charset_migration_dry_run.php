@@ -9,7 +9,7 @@ use src\Models\OcConfig\OcConfig;
 
 class C17312809970923 extends UpdateScript
 {
-    const DRY_RUN = false;
+    const DRY_RUN = true;
     const CHARSET_TARGET = 'utf8mb4';
     const COLLATION_TARGET = 'utf8mb4_general_ci';
     private $databaseName;
