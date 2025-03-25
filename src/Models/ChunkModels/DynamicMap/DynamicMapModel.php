@@ -50,16 +50,16 @@ class DynamicMapModel
      */
     public function addMarkersWithExtractor($markerClass, array $dataRows, callable $rowExtractor)
     {
-        foreach($dataRows as $row){
+        foreach ($dataRows as $row){
 
             $markerModel = call_user_func($rowExtractor, $row);
 
-            if(!($markerModel instanceof $markerClass)) {
+            if (!($markerModel instanceof $markerClass)) {
                 Debug::errorLog("Extractor returns something different than $markerClass");
                 return;
             }
 
-            if(!is_subclass_of($markerModel, AbstractMarkerModelBase::class)){
+            if (!is_subclass_of($markerModel, AbstractMarkerModelBase::class)){
                 Debug::errorLog("Marker class $markerClass is not a child of ".AbstractMarkerModelBase::class);
                 return;
             }
@@ -77,12 +77,12 @@ class DynamicMapModel
     {
         $type = $model->getMarkerTypeName();
 
-        if(!$model->checkMarkerData()){
+        if (!$model->checkMarkerData()){
             $type = $model->getMarkerTypeName();
             Debug::errorLog("Marker of $type has incomplete data!");
         }
 
-        if(!isset($this->markerModels[$type])){
+        if (!isset($this->markerModels[$type])){
             $this->markerModels[$type] = [];
         }
         $this->markerModels[$type][] = $model;
@@ -152,11 +152,11 @@ class DynamicMapModel
 
     public function getStartExtentJson()
     {
-        if($this->startExtent){
+        if ($this->startExtent){
             $sw = $this->swCorner->getAsOpenLayersFormat();
             $ne = $this->neCorner->getAsOpenLayersFormat();
             return "{ sw:$sw, ne:$ne }";
-        }else{
+        } else {
             return "null";
         }
     }

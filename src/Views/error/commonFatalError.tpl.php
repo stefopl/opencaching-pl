@@ -35,7 +35,7 @@
     </a>
     <h3>This is ERROR!</h3>
 
-    <?php if($view->message) { ?>
+    <?php if ($view->message) { ?>
       <h4>The only detail which maybe explain something:
       <span class="error"><?=$view->message?></span></h4>
     <?php } //if-message ?>

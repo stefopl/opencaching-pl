@@ -21,7 +21,7 @@ return function (array $data){
     $statusTitle = tr( GeoCacheCommons::CacheTypeTranslationKey($data['type']) );
     $statusTitle .= ', '. tr ( GeoCacheCommons::CacheStatusTranslationKey($data['status']));
 
-    if(!is_null($data['user_sts'])){
+    if (!is_null($data['user_sts'])){
         $statusTitle .= ', '. tr(GeoCacheLogCommons::typeTranslationKey($data['user_sts']));
     }
 

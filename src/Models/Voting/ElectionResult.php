@@ -108,7 +108,7 @@ class ElectionResult extends BaseObject
     public function getListOfOptNamesAsJson(): string
     {
         return json_encode(array_values(
-            array_map(function(ChoiceOption $opt) {
+            array_map(function (ChoiceOption $opt) {
                 return $opt->getName();
             }, $this->options)));
     }
@@ -116,7 +116,7 @@ class ElectionResult extends BaseObject
     public function getListOfVotesCountAsJson(): string
     {
         return json_encode(array_values(
-            array_map(function(ChoiceOption $opt) {
+            array_map(function (ChoiceOption $opt) {
                 return $this->getOptVotesCount($opt);
             }, $this->options)));
     }

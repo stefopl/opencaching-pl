@@ -97,7 +97,7 @@ class MeritBadgeController{
 
         $retArray = new \ArrayObject();
 
-        for( $i = 0; $i < $this->db->rowCount($stm); $i++ ){
+        for ( $i = 0; $i < $this->db->rowCount($stm); $i++ ){
             $rec = $this->db->dbResultFetch($stm);
             $retArray->append( $this->prepareUserBadgeObj( $rec ) );
         }
@@ -222,7 +222,7 @@ class MeritBadgeController{
         $changedLevelBadgesIds = "";
         $first = true;
 
-        foreach( $meritBadges as $oneMeritBadge ){
+        foreach ( $meritBadges as $oneMeritBadge ){
 
             if ( !$this->isToUpdate( $cache_id, $oneMeritBadge ) )
                 continue;
@@ -235,8 +235,7 @@ class MeritBadgeController{
                     $newUserBadge = !$this->isExistUserBadge( $user_id, $oneMeritBadge->getId() );
                     if ( $newUserBadge ){
                         $this->insertUserBadge($currValue, $user_id, $oneMeritBadge->getId() );
-                    }
-                    else{
+                    } else {
                         $this->updateCurrValInUserBadge($currValue, $user_id, $oneMeritBadge->getId() );
                     }
 
@@ -285,7 +284,7 @@ class MeritBadgeController{
     private function buildArray( $class, $stm ){
         $retArray = new \ArrayObject();
 
-        for( $i = 0; $i < $this->db->rowCount($stm); $i++ ){
+        for ( $i = 0; $i < $this->db->rowCount($stm); $i++ ){
 
             $rec = $this->db->dbResultFetch($stm);
 
@@ -383,9 +382,7 @@ class MeritBadgeController{
 
             //the badge has a wrong level
             if ($newUserBadge)
-                $badgeLevel = $this->getProperBadgeLevel($badge_id, $userMeritBadge->getCurrVal() );
-                else
-                    $badgeLevel = $this->buildBadgeLevel( $badge_id, $userMeritBadge->getLevelId()+1); //next level
+                $badgeLevel = $this->getProperBadgeLevel($badge_id, $userMeritBadge->getCurrVal() ); else $badgeLevel = $this->buildBadgeLevel( $badge_id, $userMeritBadge->getLevelId()+1); //next level
 
                     $query = "UPDATE badge_user
                 SET level_id = :1, level_date= :2, prev_val = next_val, next_val = :3
@@ -410,11 +407,11 @@ class MeritBadgeController{
                 if ($condition != ""){
                     $query = mb_ereg_replace( ' WHERE ', ' WHERE ' . $condition . ' and ', $query);
                     $stm = $this->db->multiVariableQuery( $query, $id );
-                } else{
+                } else {
                     $stm = $this->db->multiVariableQuery( $query);
                 }
 
-                if( !$this->db->rowCount($stm) )
+                if ( !$this->db->rowCount($stm) )
                     return false;
 
                     return true;

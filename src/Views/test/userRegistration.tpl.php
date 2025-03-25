@@ -15,7 +15,7 @@
 
           <a class="btn" href="">XXXRejestracja przez Google</a>
 
-          <?php if($view->fbLoginEnabled) { ?>
+          <?php if ($view->fbLoginEnabled) { ?>
           <a class="btn" href="<?=$view->fbRedirectUrl?>">XXXRejestracja przez Facebooka</a>
           <?php } // if-fbLoginEnabled ?>
 

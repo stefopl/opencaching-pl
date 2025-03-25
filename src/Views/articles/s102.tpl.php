@@ -25,11 +25,8 @@ if (isset($_REQUEST["stat"])) {
 }
 
 if ($sNameOfStat == "NumberOfFinds")
-    $sTitleOfStat = " {{ranking_by_number_of_finds_new}} ";
-else if ($sNameOfStat == "MaintenanceOfCaches")
-    $sTitleOfStat = " {{ranking_by_maintenace}} ";
-else
-    $sTitleOfStat = " Ranking ";
+    $sTitleOfStat = " {{ranking_by_number_of_finds_new}} "; else if ($sNameOfStat == "MaintenanceOfCaches")
+    $sTitleOfStat = " {{ranking_by_maintenace}} "; else $sTitleOfStat = " Ranking ";
 ?>
 
 <div class="content2-container">
@@ -66,7 +63,7 @@ else
 
         if ($sRD == "R" && $sRok == "" && $sMc == ""){
             OcCookie::set($sNameOfStatCookieEmptyDate, "Yes", true);
-        }else{
+        } else {
             OcCookie::set($sNameOfStatCookieEmptyDate, "No", true);
         }
 

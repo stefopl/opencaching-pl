@@ -32,30 +32,30 @@ return function ($reloadUrl=null, $infoMsg=null, $errorMsg=null) {
         }
     </script>
 
-    <?php if(!empty($infoMsg)) { ?>
+    <?php if (!empty($infoMsg)) { ?>
         <div class="infoBar-message infoBar-messageInfo">
           <div class="infoBar-messageText">
               <?=$infoMsg?>
           </div>
           <div class="infoBar-closeBtnContainer">
-            <?php if($reloadUrl) { ?>
+            <?php if ($reloadUrl) { ?>
                 <span class="infoBar-closeBtn" onclick="infoBarReload()"></span>
-            <?php }else{ //if-reloadUrl ?>
+            <?php } else { //if-reloadUrl ?>
                 <span class="infoBar-closeBtn" onclick="infoBarHide()"></span>
             <?php } //if-reloadUrl ?>
           </div>
         </div>
     <?php } ?>
 
-    <?php if(!empty($errorMsg)) { ?>
+    <?php if (!empty($errorMsg)) { ?>
         <div class="infoBar-message infoBar-messageErr">
           <div class="infoBar-messageText">
             <?=$errorMsg?>
           </div>
           <div class="infoBar-closeBtnContainer">
-            <?php if($reloadUrl) { ?>
+            <?php if ($reloadUrl) { ?>
                 <span class="infoBar-closeBtn" onclick="infoBarReload()"></span>
-            <?php }else{ //if-reloadUrl ?>
+            <?php } else { //if-reloadUrl ?>
                 <span class="infoBar-closeBtn" onclick="infoBarHide()"></span>
             <?php } //if-reloadUrl ?>
           </div>

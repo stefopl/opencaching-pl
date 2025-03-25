@@ -48,8 +48,7 @@ if (isset($_REQUEST['region'])) {
                     $wartosc = $wynik['count'];
                     $licznik = 1;
                     echo "<tr class='bgcolor2'><td align='right'>&nbsp;&nbsp;<b>$licznik</b>&nbsp;&nbsp;</td><td align='right'>&nbsp;&nbsp;<b>".$wynik['count']."</b>&nbsp;&nbsp;</td><td><a href='viewprofile.php?userid=".$wynik['userid']."'>" . htmlspecialchars($wynik['nick']) . "</a>";
-                } else
-                if ($wartosc == $wynik['count']) {
+                } else if ($wartosc == $wynik['count']) {
                     echo ', <a href="viewprofile.php?userid=' . $wynik['userid'] . '">' . htmlspecialchars($wynik['nick']) . '</a>';
                 } else {
                     $licznik++;

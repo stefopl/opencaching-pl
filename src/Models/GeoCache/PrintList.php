@@ -53,9 +53,9 @@ class PrintList {
      */
     public static function AddOrRemoveCacheUrl($cacheId)
     {
-        if(self::IsOnTheList($cacheId)){
+        if (self::IsOnTheList($cacheId)){
             return self::RemoveCacheUrl($cacheId);
-        }else{
+        } else {
             return self::AddCacheUrl($cacheId);
         }
     }
@@ -70,9 +70,9 @@ class PrintList {
 
     public static function GetContent()
     {
-        if( isset($_SESSION['print_list']) && is_array($_SESSION['print_list']) ){
+        if ( isset($_SESSION['print_list']) && is_array($_SESSION['print_list']) ){
             return $_SESSION['print_list'];
-        }else{
+        } else {
             return array();
         }
     }

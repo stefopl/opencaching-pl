@@ -6,7 +6,7 @@ return function ($url, $domContainerId){
     //start of chunk
 ?>
 
-  <?php if(!is_null($url) && !is_null($domContainerId)){ ?>
+  <?php if (!is_null($url) && !is_null($domContainerId)){ ?>
     <script>
       $('#<?=$domContainerId?>').load("<?=$url?>");
     </script>

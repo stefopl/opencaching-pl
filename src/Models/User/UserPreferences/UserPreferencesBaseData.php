@@ -27,9 +27,9 @@ abstract class UserPreferencesBaseData {
      */
     public function __construct($key){
 
-        if(UserPreferences::isKeyAllowed($key)){
+        if (UserPreferences::isKeyAllowed($key)){
             $this->key = $key;
-        }else{
+        } else {
             $this->key = null;
         }
 
@@ -51,9 +51,9 @@ abstract class UserPreferencesBaseData {
     public function setValues($values){
 
         foreach ($this->getDefaults() as $key=>$default){
-            if(array_key_exists($key, $values)){
+            if (array_key_exists($key, $values)){
                 $this->values[$key] = $values[$key];
-            }else{
+            } else {
                 $this->values[$key] = $default;
             }
         }

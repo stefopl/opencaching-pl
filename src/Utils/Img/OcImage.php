@@ -78,7 +78,7 @@ class OcImage
         // load img type
         $this->loadType($inputImagePath);
 
-        if(!PhpInfo::versionAtLeast(7,2) && $this->gdImageType == IMAGETYPE_BMP){
+        if (!PhpInfo::versionAtLeast(7,2) && $this->gdImageType == IMAGETYPE_BMP){
             // GD doens't support BMP import before PHP 7.2
             $this->gdImage = $this->loadBmp($inputImagePath);
         } else {
@@ -211,7 +211,7 @@ class OcImage
                 $result = imagejpeg($this->gdImage, $outputPath, self::DEFAULT_JPEG_COMPRESSION);
         }
 
-        if(!$result){
+        if (!$result){
             throw new \Exception("Can't save the output file: $outputPath");
         }
 
@@ -220,7 +220,7 @@ class OcImage
 
     private function loadType($inputImagePath)
     {
-        if($imgParams = @getimagesize($inputImagePath)) {
+        if ($imgParams = @getimagesize($inputImagePath)) {
             $this->gdImageType =  $imgParams[2];
         } else {
             throw new \Exception("Can't read image type?");
@@ -281,8 +281,7 @@ class OcImage
             $x = 0;
             while ($x < $bmp['width']) {
                 if ($bmp['bits_per_pixel'] == 24)
-                    $color = unpack("V", substr($img, $p, 3) . $vide);
-                elseif ($bmp['bits_per_pixel'] == 16) {
+                    $color = unpack("V", substr($img, $p, 3) . $vide); elseif ($bmp['bits_per_pixel'] == 16) {
                     $color = unpack("n", substr($img, $p, 2));
                     $color[1] = $palette[$color[1] + 1];
                 } elseif ($bmp['bits_per_pixel'] == 8) {
@@ -299,24 +298,16 @@ class OcImage
                 } elseif ($bmp['bits_per_pixel'] == 1) {
                     $color = unpack("n", $vide . substr($img, floor($p), 1));
                     if (($p * 8) % 8 == 0)
-                        $color[1] = $color[1] >> 7;
-                    elseif (($p * 8) % 8 == 1)
-                        $color[1] = ($color[1] & 0x40) >> 6;
-                    elseif (($p * 8) % 8 == 2)
-                        $color[1] = ($color[1] & 0x20) >> 5;
-                    elseif (($p * 8) % 8 == 3)
-                        $color[1] = ($color[1] & 0x10) >> 4;
-                    elseif (($p * 8) % 8 == 4)
-                        $color[1] = ($color[1] & 0x8) >> 3;
-                    elseif (($p * 8) % 8 == 5)
-                        $color[1] = ($color[1] & 0x4) >> 2;
-                    elseif (($p * 8) % 8 == 6)
-                        $color[1] = ($color[1] & 0x2) >> 1;
-                    elseif (($p * 8) % 8 == 7)
+                        $color[1] = $color[1] >> 7; elseif (($p * 8) % 8 == 1)
+                        $color[1] = ($color[1] & 0x40) >> 6; elseif (($p * 8) % 8 == 2)
+                        $color[1] = ($color[1] & 0x20) >> 5; elseif (($p * 8) % 8 == 3)
+                        $color[1] = ($color[1] & 0x10) >> 4; elseif (($p * 8) % 8 == 4)
+                        $color[1] = ($color[1] & 0x8) >> 3; elseif (($p * 8) % 8 == 5)
+                        $color[1] = ($color[1] & 0x4) >> 2; elseif (($p * 8) % 8 == 6)
+                        $color[1] = ($color[1] & 0x2) >> 1; elseif (($p * 8) % 8 == 7)
                         $color[1] = ($color[1] & 0x1);
                     $color[1] = $palette[$color[1] + 1];
-                } else
-                    return false;
+                } else return false;
                 imagesetpixel($res, $x, $y, $color[1]);
                 $x ++;
                 $p += $bmp['bytes_per_pixel'];

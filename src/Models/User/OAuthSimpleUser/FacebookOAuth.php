@@ -63,9 +63,9 @@ class FacebookOAuth  extends OAuthSimpleUserBase
             "&scope=email" .
             "&state=$stateStr";
 
-        if($urlForHtml){
+        if ($urlForHtml){
             return htmlspecialchars($url);
-        }else{
+        } else {
             return $url;
         }
     }
@@ -79,16 +79,16 @@ class FacebookOAuth  extends OAuthSimpleUserBase
         $instance = new self();
 
         // STAGE III: check if user is authorized by FB
-        if( !$instance->isUserAuthorizedByFb() ){
+        if ( !$instance->isUserAuthorizedByFb() ){
             return $instance;
         }
 
         // STAGE IV: retrive access-token from FB
-        if( !$instance->isAccessTokenRetrived() ){
+        if ( !$instance->isAccessTokenRetrived() ){
             return $instance;
         }
         // STAGE V: retrive user data from FB
-        if( !$instance->isUserDataReady() ){
+        if ( !$instance->isUserDataReady() ){
             return $instance;
         }
 
@@ -103,7 +103,7 @@ class FacebookOAuth  extends OAuthSimpleUserBase
      */
     private function isUserAuthorizedByFb()
     {
-        if( isset($_GET['error'])){
+        if ( isset($_GET['error'])){
 
             $this->error = self::ERROR_EXT_DESC;
 
@@ -116,18 +116,18 @@ class FacebookOAuth  extends OAuthSimpleUserBase
             return false;
         }
 
-        if( !isset($_GET['code']) ){
+        if ( !isset($_GET['code']) ){
             $this->error = self::ERROR_NO_CODE;
             return false;
         }
 
-        if(!isset($_GET['state']) ){
+        if (!isset($_GET['state']) ){
             $this->error = self::ERROR_NO_STATE;
             return false;
         }
 
         // check state string
-        if(!self::checkStateSessionVar($_GET['state'])){
+        if (!self::checkStateSessionVar($_GET['state'])){
             $this->error = self::ERROR_STATE_INVALID;
             return false;
         }
@@ -152,13 +152,13 @@ class FacebookOAuth  extends OAuthSimpleUserBase
 
         // send query
         $response = file_get_contents($url);
-        if($response === false){
+        if ($response === false){
             $this->error = self::ERROR_CANT_GET_TOKEN;
             return false;
         }
 
         $respObj = json_decode($response);
-        if(is_null($respObj)){
+        if (is_null($respObj)){
             $this->error = self::ERROR_INVALID_TOKEN_JSON;
             return false;
         }
@@ -178,14 +178,14 @@ class FacebookOAuth  extends OAuthSimpleUserBase
         "/me?fields=id,name,email&access_token={$this->accessToken}";
 
         $response = file_get_contents($url);
-        if($response === false){
+        if ($response === false){
             $this->error = self::ERROR_CANT_RETRIVE_USER_DATA;
             return false;
         }
 
         $respObj = json_decode($response);
 
-        if(is_null($respObj) || !isset($respObj->name) ||
+        if (is_null($respObj) || !isset($respObj->name) ||
             !isset($respObj->id) || !isset($respObj->email)
         ){
             $this->error = self::ERROR_INVALID_USER_DATA_JSON;

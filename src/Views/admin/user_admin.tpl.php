@@ -43,7 +43,7 @@ $user = $view->user;
 
   <div id="userButtonsDiv">
     <div id="removeAccountBtn">
-      <?php if(!$user->isAlreadyRemoved()) { ?>
+      <?php if (!$user->isAlreadyRemoved()) { ?>
         <button class="btn btn-danger btn-sm" onclick="rmUserShowConfirmation()">
       <?php } else { //$user->isAlreadyRemoved() ?>
         <button class="btn btn-disabled btn-sm">

@@ -2,7 +2,7 @@
 use src\Utils\Uri\Uri;
 use src\Models\GeoCache\GeoCacheLogCommons;
 
-return function($isUserAuthorized, $cacheType) {
+return function ($isUserAuthorized, $cacheType) {
     $chunkCSS = Uri::getLinkWithModificationTime(
         '/views/chunks/logFilter.css'
     );
@@ -17,7 +17,7 @@ return function($isUserAuthorized, $cacheType) {
             <span class="logfilter-prompt"><?=tr('log_filter_type')?>:&#160;</span>
             <select name='log_filter_type' class="form-control logfilter-select" filternum="0">
                 <option name='filter_opt_any'><?=tr('log_filter_type_any')?></option>
-                <?php foreach(GeoCacheLogCommons::getLogTypeTplKeys($cacheType) as $logType => $logTypeKey) { ?>
+                <?php foreach (GeoCacheLogCommons::getLogTypeTplKeys($cacheType) as $logType => $logTypeKey) { ?>
                 <option name='filter_opt_<?=$logType?>'><?=tr($logTypeKey)?></option>
                 <?php } //foreach-getLogTypeTplKeys ?>
             </select>

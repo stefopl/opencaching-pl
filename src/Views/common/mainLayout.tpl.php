@@ -14,27 +14,27 @@
         <?php $view->callChunk($chunkName, ...$args); ?>
     <?php } //foreach getHeaderChunks ?>
 
-    <?php foreach( $view->getLocalCss() as $css ) { ?>
+    <?php foreach ( $view->getLocalCss() as $css ) { ?>
       <link rel="stylesheet" type="text/css" href="<?=$css?>">
     <?php } //foreach-css ?>
 
     <?php
         $view->callChunk('bootstrapCss'); // always load bootstrap
 
-        if( $view->isGoogleAnalyticsEnabled() ){
+        if ( $view->isGoogleAnalyticsEnabled() ){
             $view->callChunkOnce( 'googleAnalytics', $view->getGoogleAnalyticsKey() );
         }
-        if( $view->isjQueryUIEnabled()){
+        if ( $view->isjQueryUIEnabled()){
             $view->callChunk('jQueryUI');
         }
-        if( $view->isTimepickerEnabled()){
+        if ( $view->isTimepickerEnabled()){
             $view->callChunk('timepicker');
         }
-        if( $view->isFancyBoxEnabled()){
+        if ( $view->isFancyBoxEnabled()){
             $view->callChunk('fancyBoxLoader', true, false);
         }
 
-        foreach( $view->getLocalJs() as $js ) {
+        foreach ( $view->getLocalJs() as $js ) {
             if (! $js['defer']) {?>
               <script src="<?=$js['url']?>"<?=$js['async'] ? ' async' : ''?>></script>
   <?php     }
@@ -68,7 +68,7 @@
                 <div class="col-7 text-right">
 <!-- flags -->
                   <div id="headerFlags" class="my-2 d-print-none">
-                    <?php foreach($view->_languageFlags as $langFlag){ ?>
+                    <?php foreach ($view->_languageFlags as $langFlag){ ?>
                       <a rel="nofollow" href="<?=$langFlag['link']?>">
                         <img src="<?=$langFlag['img']?>"
                              alt="<?=$langFlag['name']?> version"
@@ -79,7 +79,7 @@
 <!-- / flags -->
 <!-- login-box -->
                   <div id="headerLoginBox d-print-none">
-                    <?php if($view->_isUserLogged){ //if-user-logged ?>
+                    <?php if ($view->_isUserLogged){ //if-user-logged ?>
                       <?=$tr('logged_as')?>
                       <a href="/viewprofile.php"><?=$view->_username?></a>
                       <a href="/login.php?action=logout"
@@ -213,9 +213,9 @@
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
                   <span class="navbar-toggler-icon"></span>
                 </button>
-                  <?php foreach($view->_menuBar as $key=>$url) { ?>
+                  <?php foreach ($view->_menuBar as $key=>$url) { ?>
                     <li class="nav-item">
-                      <?php if(is_array($url)) { //array="open in new window" ?>
+                      <?php if (is_array($url)) { //array="open in new window" ?>
                           <a class="nav-link" href="<?=$url[0]?>" target="_blank" rel="noopener"><?=$key?></a>
                         <?php } else { // !is_array($url) ?>
                           <a class="nav-link" href="<?=$url?>" rel="noopener"><?=$key?></a>
@@ -232,11 +232,11 @@
           <div class="row">
             <div class="col-lg-2 d-none d-lg-block sidebar">
 
-                <?php if(!$view->_isUserLogged) { ?>
+                <?php if (!$view->_isUserLogged) { ?>
                     <!-- non-authorized user menu -->
                     <div class="nav nav-pills flex-column">
-                      <?php foreach($view->_nonAuthUserMenu as $key => $url){ ?>
-                        <?php if(is_array($url)) { //array="open in new window" ?>
+                      <?php foreach ($view->_nonAuthUserMenu as $key => $url){ ?>
+                        <?php if (is_array($url)) { //array="open in new window" ?>
                           <a class="nav-link" href="<?=$url[0]?>" target="_blank" rel="noopener"><?=$key?></a>
                         <?php } else { // !is_array($url) ?>
                           <a class="nav-link" href="<?=$url?>" rel="noopener"><?=$key?></a>
@@ -247,8 +247,8 @@
                 <?php } else { //if-_isUserLogged ?>
                     <!-- authorized user menu -->
                     <div class="nav nav-pills flex-column">
-                      <?php foreach($view->_authUserMenu as $key => $url){ ?>
-                        <?php if(is_array($url)) { //array="open in new window" ?>
+                      <?php foreach ($view->_authUserMenu as $key => $url){ ?>
+                        <?php if (is_array($url)) { //array="open in new window" ?>
                           <a class="nav-link" href="<?=$url[0]?>" target="_blank" rel="noopener"><?=$key?></a>
                         <?php } else { // !is_array($url) ?>
                           <a class="nav-link" href="<?=$url?>" rel="noopener"><?=$key?></a>
@@ -258,8 +258,8 @@
 
                     <!-- custom user menu -->
                     <div class="nav nav-pills flex-column">
-                      <?php foreach($view->_customUserMenu as $key => $url){ ?>
-                        <?php if(is_array($url)) { //array="open in new window" ?>
+                      <?php foreach ($view->_customUserMenu as $key => $url){ ?>
+                        <?php if (is_array($url)) { //array="open in new window" ?>
                           <a class="nav-link" href="<?=$url[0]?>" target="_blank" rel="noopener"><?=$key?></a>
                         <?php } else { // !is_array($url) ?>
                           <a class="nav-link" href="<?=$url?>" rel="noopener"><?=$key?></a>
@@ -269,8 +269,8 @@
 
                     <!-- additional menu -->
                     <div class="nav nav-pills flex-column">
-                      <?php foreach($view->_additionalMenu as $key => $url){ ?>
-                        <?php if(is_array($url)) { //array="open in new window" ?>
+                      <?php foreach ($view->_additionalMenu as $key => $url){ ?>
+                        <?php if (is_array($url)) { //array="open in new window" ?>
                           <a class="nav-link" href="<?=$url[0]?>" target="_blank" rel="noopener"><?=$key?></a>
                         <?php } else { // !is_array($url) ?>
                           <a class="nav-link" href="<?=$url?>" rel="noopener"><?=$key?></a>
@@ -281,8 +281,8 @@
                     <?php if ($view->_isAdmin) { ?>
                         <!-- admin menu -->
                         <div class="nav nav-pills flex-column">
-                          <?php foreach($view->_adminMenu as $key => $url){ ?>
-                            <?php if(is_array($url)) { //array="open in new window" ?>
+                          <?php foreach ($view->_adminMenu as $key => $url){ ?>
+                            <?php if (is_array($url)) { //array="open in new window" ?>
                               <a class="nav-link" href="<?=$url[0]?>" target="_blank" rel="noopener"><?=$key?></a>
                             <?php } else { // !is_array($url) ?>
                               <a class="nav-link" href="<?=$url?>" rel="noopener"><?=$key?></a>
@@ -302,21 +302,21 @@
           <div class="row">
             <div class="col footer text-center">
 
-              <?php if($view->_isUserLogged && $view->_displayOnlineUsers){ ?>
+              <?php if ($view->_isUserLogged && $view->_displayOnlineUsers){ ?>
                 <h6>
                 <?=$tr('online_users')?>:
                 <?=count($view->_onlineUsers)?>
 
                 <?=$tr('online_users_info')?>:
-                <?php foreach($view->_onlineUsers as $userId=>$username){ ?>
+                <?php foreach ($view->_onlineUsers as $userId=>$username){ ?>
                 <a href="/viewprofile.php?userid=<?=$userId?>"><?=$username?></a>
                 <?php } //foreach ?>
                 </h6>
               <?php } // user-logged && displayOnlineUsers ?>
 
               <div class="m-2">
-                  <?php foreach($view->_footerMenu as $key => $url){ ?>
-                    <?php if(is_array($url)) { //array="open in new window" ?>
+                  <?php foreach ($view->_footerMenu as $key => $url){ ?>
+                    <?php if (is_array($url)) { //array="open in new window" ?>
                       <a class="btn btn-outline-primary btn-sm"
                         href="<?=$url[0]?>" target="_blank" rel="noopener"><?=$key?></a>
                     <?php } else { // !is_array($url) ?>
@@ -343,11 +343,11 @@
         // JS scripts to loaded at the end
         $view->callChunk('jQuery');      // always load jQuery
         $view->callChunk('bootstrapJs'); // always load bootstrap
-        if( $view->isFancyBoxEnabled()){
+        if ( $view->isFancyBoxEnabled()){
             $view->callChunk('fancyBoxLoader', false, true);
         }
         // load defer JS at the end
-        foreach( $view->getLocalJs() as $js ) {
+        foreach ( $view->getLocalJs() as $js ) {
             if ($js['defer']) {?>
             <script src="<?=$js['url']?>"<?=$js['async'] ? ' async' : ''?> defer></script>
   <?php   } //if

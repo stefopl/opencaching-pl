@@ -107,7 +107,7 @@ class Thumbnail extends BaseObject
                 return null;
         }
 
-        if($isSpoiler) {
+        if ($isSpoiler) {
             $spoiler = self::SPOILER_DIR;
         } else {
             $spoiler = self::NON_SPOILER_DIR;
@@ -118,7 +118,7 @@ class Thumbnail extends BaseObject
         $outPath = OcConfig::getPicUploadFolder().$path;
 
         // be sure that $outPath exists
-        if(!is_dir($outPath)){
+        if (!is_dir($outPath)){
             mkdir($outPath, 0750, true);
         }
 

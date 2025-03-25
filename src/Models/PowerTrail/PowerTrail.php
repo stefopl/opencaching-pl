@@ -423,7 +423,7 @@ class PowerTrail extends BaseObject
             $cachesFoundByUser = $this->db->dbResultFetchAll($s);
         }
 
-        if(count($cachesFoundByUser) !== $this->getFoundsCountFromProgressByUser($userId)){
+        if (count($cachesFoundByUser) !== $this->getFoundsCountFromProgressByUser($userId)){
             $logMessage = sprintf(
                 'Updated founds count in powertrail_progress for PT %d from %d to %d User %d:',
                 $this->getId(),
@@ -449,7 +449,7 @@ class PowerTrail extends BaseObject
         $stmt = $this->db->paramQuery($query, $params);
         $row = $this->db->dbResultFetchOneRowOnly($stmt);
 
-        if(isset($row['founds'])){
+        if (isset($row['founds'])){
             return $row['founds'];
         }
 
@@ -720,7 +720,7 @@ class PowerTrail extends BaseObject
 
     public static function getMaxPowerTrailId()
     {
-        return OcMemCache::getOrCreate('PowerTrail:getMaxPowerTrailId', 60 * 60, function() {
+        return OcMemCache::getOrCreate('PowerTrail:getMaxPowerTrailId', 60 * 60, function () {
             $query = 'SELECT MAX(id) FROM PowerTrail';
             return self::db()->simpleQueryValue($query, 0);
         });

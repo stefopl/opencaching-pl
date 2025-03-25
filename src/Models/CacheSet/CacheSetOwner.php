@@ -69,7 +69,7 @@ class CacheSetOwner extends BaseObject
     {
         $db = self::db();
 
-        if( empty($cacheSetIds) ){
+        if ( empty($cacheSetIds) ){
             return [];
         }
         
@@ -83,7 +83,7 @@ class CacheSetOwner extends BaseObject
             WHERE PowerTrailId IN ($csIdsStr)");
 
         $result = array_fill_keys($cacheSetIds, []);
-        while($row = $db->dbResultFetch($stmt)){
+        while ($row = $db->dbResultFetch($stmt)){
             $cso = new self();
             $cso->setUserId($row['uId'])
                 ->setUserName($row['name'])

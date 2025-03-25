@@ -32,7 +32,7 @@ function removeFromList(icon, cacheId){
       <?=tr('mnu_clipboard')?>
     </div>
 
-    <?php if($view->rowCount > 0) { ?>
+    <?php if ($view->rowCount > 0) { ?>
         <div class="content2-container">
           <?php $view->callChunk('listOfCaches/listOfCaches', $view->listCacheModel);?>
         </div>

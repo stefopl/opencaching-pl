@@ -41,7 +41,7 @@ class CacheRecommendation extends BaseObject
             "DELETE FROM cache_rating
              WHERE cache_id = :1 AND user_id = :2 LIMIT 1", $cacheId, $userId);
 
-        if($stmt->rowCount() > 0) {
+        if ($stmt->rowCount() > 0) {
             if (self::OcConfig()->isMeritBadgesEnabled()) {
                 $ctrlMeritBadge = new MeritBadgeController;
                 $ctrlMeritBadge->updateTriggerCacheAuthor($cacheId);

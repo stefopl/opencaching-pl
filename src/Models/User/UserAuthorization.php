@@ -39,7 +39,7 @@ class UserAuthorization extends BaseObject
     {
 
         // try to read sessionId stored in AUTH-cookie
-        if(! $cookieSession = self::getSessionFromAuthCookie()){
+        if (! $cookieSession = self::getSessionFromAuthCookie()){
             // there is no such sessionId
             self::clearContextVars();
             return null;
@@ -48,7 +48,7 @@ class UserAuthorization extends BaseObject
         // if $cookieSession is the same as sessionId stored in PHP session
         // and ApplicationContainer contains logged user:
         // user has been already verified
-        if($cookieSession === self::getLoggedUserSessionId() &&
+        if ($cookieSession === self::getLoggedUserSessionId() &&
             $user = ApplicationContainer::GetAuthorizedUser() ){
             // generally it shouldn't happen unless this method is calls again
             // in the same request
@@ -56,7 +56,7 @@ class UserAuthorization extends BaseObject
         }
 
         //find this session in DB
-        if(! $userId = self::getUserIdFromOcSession($cookieSession)){
+        if (! $userId = self::getUserIdFromOcSession($cookieSession)){
 
             // there is no such session
             self::clearContextVars();
@@ -65,7 +65,7 @@ class UserAuthorization extends BaseObject
         }
 
         // there is proper session - find the user
-        if(!$user = User::fromUserIdFactory($userId)){
+        if (!$user = User::fromUserIdFactory($userId)){
             //strange: session presents but there is no such user?!
             self::clearContextVars();
             self::destroyAuthCookie();
@@ -93,7 +93,7 @@ class UserAuthorization extends BaseObject
     {
 
         // check if there is not too manby login tries
-        if(self::areTooManyLoginAttempts()){
+        if (self::areTooManyLoginAttempts()){
             return self::LOGIN_TOOMUCHLOGINS;
         }
 
@@ -101,10 +101,10 @@ class UserAuthorization extends BaseObject
         $neededUserColumns = User::AUTH_COLUMNS;
 
         // try to find the user based on given username/email
-        if( ($user = User::fromUsernameFactory($username, $neededUserColumns)) ||
+        if ( ($user = User::fromUsernameFactory($username, $neededUserColumns)) ||
             ($user = User::fromEmailFactory($username, $neededUserColumns))){
 
-            if($user->isActive()){
+            if ($user->isActive()){
 
                 // user active - check password
                 if ( PasswordManager::verifyPassword($user->getUserId(), $password) ) {
@@ -117,7 +117,7 @@ class UserAuthorization extends BaseObject
 
                     return self::LOGIN_OK;
                 }
-            }else{
+            } else {
                 // skip saving this login try - this is just inactive user
                 self::clearOcSession();
                 self::clearContextVars();
@@ -163,7 +163,7 @@ class UserAuthorization extends BaseObject
     private static function clearOcSession(){
 
         // delete session from DB
-        if( $sessionId = self::getLoggedUserSessionId() ){
+        if ( $sessionId = self::getLoggedUserSessionId() ){
             self::deleteOcSessionFromDb( $sessionId );
         }
 
@@ -194,7 +194,7 @@ class UserAuthorization extends BaseObject
         // set obsolete user_is in session
         unset($_SESSION['user_id']);
 
-        if(!session_id()){
+        if (!session_id()){
             // there is initialized session - destroy it!
             session_destroy();
         }
@@ -213,13 +213,13 @@ class UserAuthorization extends BaseObject
         $result = CookieBase::setCookie(self::getAuthCookieName(), $sessionId, $cookieExpiry, '/',
             false, true, CookieBase::SAME_SITE_RESTRICTION_LAX);
 
-        if(!$result){
+        if (!$result){
             Debug::errorLog(__METHOD__.": Can't set AUTH cookie");
         }
     }
 
     private static function getSessionFromAuthCookie(){
-        if(isset($_COOKIE[self::getAuthCookieName()])){
+        if (isset($_COOKIE[self::getAuthCookieName()])){
             return $_COOKIE[self::getAuthCookieName()];
         }
 
@@ -231,7 +231,7 @@ class UserAuthorization extends BaseObject
         unset($_COOKIE[self::getAuthCookieName()]);
 
         $result = CookieBase::deleteCookie(self::getAuthCookieName());
-        if(!$result){
+        if (!$result){
             Debug::errorLog(__METHOD__.": Can't delete AUTH cookie");
         }
     }
@@ -242,17 +242,17 @@ class UserAuthorization extends BaseObject
 
 
     private static function getLoggedUserSessionId(){
-        if(isset($_SESSION[self::SESSION_ID_KEY])){
+        if (isset($_SESSION[self::SESSION_ID_KEY])){
             return $_SESSION[self::SESSION_ID_KEY];
-        }else{
+        } else {
             return null;
         }
     }
 
     private static function setLoggedUserSessionId($sessionId){
-        if(!is_null($sessionId)){
+        if (!is_null($sessionId)){
             $_SESSION[self::SESSION_ID_KEY] = $sessionId;
-        }else{
+        } else {
             unset($_SESSION[self::SESSION_ID_KEY]);
         }
     }
@@ -287,10 +287,10 @@ class UserAuthorization extends BaseObject
              FROM sys_sessions WHERE uuid = :1 LIMIT 1", $sessionId);
 
         $row = $db->dbResultFetchOneRowOnly($stmt);
-        if($row && is_array($row) && isset($row['user_id'])){
+        if ($row && is_array($row) && isset($row['user_id'])){
 
             // check if session is not obsolete
-            if(
+            if (
                 ( $row['permanent'] == 1 && $row['lastTouch'] > self::PERMANENT_LOGIN_TIMEOUT ) ||
                 ( $row['permanent'] == 0 && $row['lastTouch'] > self::LOGIN_TIMEOUT )
               ){
@@ -301,7 +301,7 @@ class UserAuthorization extends BaseObject
             }
 
             // touch last_login from time-to-time
-            if( $row['lastTouch'] > self::LOGIN_TIMEOUT/10){
+            if ( $row['lastTouch'] > self::LOGIN_TIMEOUT/10){
                 $db->multiVariableQuery(
                     "UPDATE sys_sessions SET last_login=NOW() WHERE uuid = :1", $sessionId);
 
@@ -352,7 +352,7 @@ class UserAuthorization extends BaseObject
              WHERE s.last_login > DATE_SUB( NOW(), INTERVAL 15 MINUTE) ");
 
         $result = [];
-        while($row = self::db()->dbResultFetch($stmt)){
+        while ($row = self::db()->dbResultFetch($stmt)){
             $result[ $row['user_id'] ] = $row['username'];
         }
 

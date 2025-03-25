@@ -78,9 +78,7 @@ class TextConverter
             $sPos = mb_substr($str, 0, 1);
 
             if ($sPos == ' ' || $sPos == "\r" || $sPos == "\n" || $sPos == "\t" || $sPos == "\x0B" || $sPos == "\0")
-                $str = mb_substr($str, 1, mb_strlen($str) - 1);
-                else
-                    $bLoop = false;
+                $str = mb_substr($str, 1, mb_strlen($str) - 1); else $bLoop = false;
         }
 
         $bLoop = true;
@@ -88,9 +86,7 @@ class TextConverter
             $sPos = mb_substr($str, -1, 1);
 
             if ($sPos == ' ' || $sPos == "\r" || $sPos == "\n" || $sPos == "\t" || $sPos == "\x0B" || $sPos == "\0")
-                $str = mb_substr($str, 0, mb_strlen($str) - 1);
-                else
-                    $bLoop = false;
+                $str = mb_substr($str, 0, mb_strlen($str) - 1); else $bLoop = false;
         }
 
         return $str;
@@ -133,7 +129,7 @@ class TextConverter
         $unit = strtolower( $val[strlen($val)-1]);
         $val  = substr($val, 0, -1); // necessary since PHP 7.1; otherwise optional
 
-        switch($unit) {
+        switch ($unit) {
             // The 'G' modifier is available since PHP 5.1.0
             case 'g':
                 $val *= 1024;

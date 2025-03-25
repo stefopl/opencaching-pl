@@ -4,7 +4,7 @@
 </p>
 
 <div class="totalStatsSlider">
-    <?php foreach($view->totStsArr as $key=>$sts) { ?>
+    <?php foreach ($view->totStsArr as $key=>$sts) { ?>
         <div class="totalStatsFrame" title="<?=$sts['ldesc']?>">
             <div class="totalStatsTitle"><?=$sts['desc']?></div>
             <div class="totalStatsNumber"><?=$sts['val']?></div>

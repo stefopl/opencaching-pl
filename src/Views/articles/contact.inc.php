@@ -43,7 +43,7 @@ class contactDataProcessor
 
     private static function translate($str, $context = null)
     {
-        if(I18n::isTranslationAvailable($str)){
+        if (I18n::isTranslationAvailable($str)){
             $str = I18n::translatePhrase($str, null, true);
         }
         $str = self::resolve($str, $context);

@@ -17,10 +17,8 @@ if (isset($_REQUEST['print'])) {
     } else if (isset($_REQUEST['logbook']) && $_REQUEST['logbook'] == 'no') {
         $logs_to_display = 0;
         $linkargs .= '&amp;logbook=no';
-    } else
-        $logs_to_display = 0;
-} else
-    $logs_to_display = 5;
+    } else $logs_to_display = 0;
+} else $logs_to_display = 5;
 
 $pictures = '<p>{picturelines}</p>';
 

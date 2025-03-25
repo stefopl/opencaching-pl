@@ -53,9 +53,7 @@ class Converter
             if ($char === '\\') { // PHP date format escaping character
                 $i ++;
                 if ($escaping)
-                    $jqueryui_format .= $php_format[$i];
-                else
-                    $jqueryui_format .= '\'' . $php_format[$i];
+                    $jqueryui_format .= $php_format[$i]; else $jqueryui_format .= '\'' . $php_format[$i];
                 $escaping = true;
             } else {
                 if ($escaping) {
@@ -63,9 +61,7 @@ class Converter
                     $escaping = false;
                 }
                 if (isset($SYMBOLS_MATCHING[$char]))
-                    $jqueryui_format .= $SYMBOLS_MATCHING[$char];
-                else
-                    $jqueryui_format .= $char;
+                    $jqueryui_format .= $SYMBOLS_MATCHING[$char]; else $jqueryui_format .= $char;
             }
         }
         return $jqueryui_format;

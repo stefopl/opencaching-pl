@@ -5,7 +5,7 @@ use src\Controllers\CacheAdoptionController;
 
 <?php $view->callChunk('infoBar', SimpleRouter::getLink(CacheAdoptionController::class), $view->infoMsg, $view->errorMsg ); ?>
 
-<?php if($view->adoptionOffers) { ?>
+<?php if ($view->adoptionOffers) { ?>
 
 <div class="content2-pagetitle">
   <b>{{adopt_10}}</b>
@@ -46,7 +46,7 @@ use src\Controllers\CacheAdoptionController;
   <b>{{adopt_00}}</b>
 </div>
 
-<?php if( empty($view->userCaches) ) { ?>
+<?php if ( empty($view->userCaches) ) { ?>
 
     <div>
       <p>{{adopt_03}}</p>
@@ -62,7 +62,7 @@ use src\Controllers\CacheAdoptionController;
       <ul>
         <?php foreach ( $view->userCaches as $cache) { ?>
           <li>
-              <?php if($cache['adoptionOfferId']) { ?>
+              <?php if ($cache['adoptionOfferId']) { ?>
                 <!-- cache offered for adoption - offer can be aborted -->
                 <?=$cache['name']?>
                 <a href="<?=SimpleRouter::getLink(CacheAdoptionController::class,'abort',$cache['cache_id'])?>">

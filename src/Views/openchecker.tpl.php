@@ -159,7 +159,7 @@ function toggle() {
 
             <p class="errormsg">{openchecker_not_enabled}</p>
 
-            <?php if(isset($view->displayOpencheckerForm) && $view->displayOpencheckerForm){ ?>
+            <?php if (isset($view->displayOpencheckerForm) && $view->displayOpencheckerForm){ ?>
                 <form name="openchecker" action="{openchecker_script}" method="post" class="form-group-sm">
                     <input type="hidden" name="cacheid" value="{cacheid}">
                     <input type="hidden" name="wp" value="{wp_oc}">

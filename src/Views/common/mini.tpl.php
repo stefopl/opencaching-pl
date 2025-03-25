@@ -18,24 +18,24 @@
   <link rel="mask-icon" href="<?=OcConfig::getSiteMainViewIcon('maskIcon')?>" color="#5bbad5">
 
 
-  <?php foreach( $view->getLocalCss() as $css ) { ?>
+  <?php foreach ( $view->getLocalCss() as $css ) { ?>
     <link rel="stylesheet" type="text/css" href="<?=$css?>">
   <?php } //foreach-css ?>
 
   <?php
-      if( $view->isGoogleAnalyticsEnabled() ){
+      if ( $view->isGoogleAnalyticsEnabled() ){
           $view->callChunkOnce( 'googleAnalytics', $view->getGoogleAnalyticsKey() );
       }
-      if( $view->isjQueryEnabled()){
+      if ( $view->isjQueryEnabled()){
           $view->callChunk('jQuery');
       }
-      if( $view->isjQueryUIEnabled()){
+      if ( $view->isjQueryUIEnabled()){
           $view->callChunk('jQueryUI');
       }
-      if( $view->isTimepickerEnabled()){
+      if ( $view->isTimepickerEnabled()){
           $view->callChunk('timepicker');
       }
-      if( $view->isFancyBoxEnabled()){
+      if ( $view->isFancyBoxEnabled()){
           $view->callChunk('fancyBoxLoader', true, false);
       }
 
@@ -59,11 +59,11 @@
 
   <?php
     // fancybox js should be loaded at th end of page
-    if( $view->isFancyBoxEnabled()){
+    if ( $view->isFancyBoxEnabled()){
         $view->callChunk('fancyBoxLoader', false, true);
     }
     // load defer JS at the end
-    foreach( $view->getLocalJs() as $js ) {
+    foreach ( $view->getLocalJs() as $js ) {
         if ($js['defer']) {?>
           <script src="<?=$js['url']?>"<?=$js['async'] ? ' async' : ''?> defer></script>
 <?php   } //if

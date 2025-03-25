@@ -165,8 +165,8 @@ class MeritBadge
         if (!$amountOfLevels) $amountOfLevels=1;
         $size = round((($level+1)*self::PROGRESIVE_BAR_SIZE)/$amountOfLevels);
 
-        if($size <= 0 ) $size = 1;
-        if($size > self::PROGRESIVE_BAR_SIZE ) $size = self::PROGRESIVE_BAR_SIZE;
+        if ($size <= 0 ) $size = 1;
+        if ($size > self::PROGRESIVE_BAR_SIZE ) $size = self::PROGRESIVE_BAR_SIZE;
 
         return $size;
     }
@@ -176,8 +176,8 @@ class MeritBadge
         if (!$amountOfLevels) $amountOfLevels=1;
 
         $idx = round((($level+1)*self::COLOR_NUMBER)/($amountOfLevels));
-        if($idx > (self::COLOR_NUMBER) ) $idx = self::COLOR_NUMBER;
-        if($idx <= 0 ) $idx = 1;
+        if ($idx > (self::COLOR_NUMBER) ) $idx = self::COLOR_NUMBER;
+        if ($idx <= 0 ) $idx = 1;
 
         return self::$_colors[ $idx-1 ];
     }
@@ -211,9 +211,7 @@ class MeritBadge
 
         if ($PeriodOrThreshold == "P"){
             if ($second != self::THE_HIGHEST_LEVEL)
-                $out .= " - " . ($second-1);
-            else
-                $out .= "";
+                $out .= " - " . ($second-1); else $out .= "";
         }
 
         return $out;
@@ -236,7 +234,7 @@ class MeritBadge
         $db = OcDb::instance();
 
         preg_match_all("/#(.*)#/", $text, $sqlOut); //one value
-        foreach( $sqlOut[1] as $sql ){
+        foreach ( $sqlOut[1] as $sql ){
             $stmt = $db->simpleQuery($sql);
             $rec = $db->dbResultFetch($stmt);
             $text = str_replace('#'.$sql.'#', number_format( $rec["value"], 0, $config['numberFormatDecPoint'], $config['numberFormatThousandsSep']), $text);
@@ -244,11 +242,11 @@ class MeritBadge
         }
 
         preg_match_all("/@(.*)@/", $text, $sqlOut); //a list of caches
-        foreach( $sqlOut[1] as $sql ){
+        foreach ( $sqlOut[1] as $sql ){
             $cache_list = "<ul>";
 
             $stmt = $db->simpleQuery($sql);
-            for($i = 0; $i < $db->rowCount($stmt); $i++ ){
+            for ($i = 0; $i < $db->rowCount($stmt); $i++ ){
                 $pattern = "<li> <a href='viewcache.php?cacheid={cache_id}'>{cache_name}</a></li>";
                 $rec = $db->dbResultFetch($stmt);
                 $pattern = str_replace( "{cache_name}", $rec["cache_name"], $pattern);

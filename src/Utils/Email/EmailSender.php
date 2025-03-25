@@ -29,7 +29,7 @@ class EmailSender
     {
 
         //first check if sending email is allowed
-        if(!OcSpamDomain::isEmailAllowed($spamDomain)){
+        if (!OcSpamDomain::isEmailAllowed($spamDomain)){
             //skip email
             return;
         }

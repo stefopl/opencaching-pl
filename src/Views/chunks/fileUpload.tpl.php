@@ -13,7 +13,7 @@ return function ($inputName, $accepted, $maxFileSize=0) {
 ?>
 <!-- MAX= <?=$maxFileSize?> -->
 
-    <?php if($maxFileSize != 0) {?>
+    <?php if ($maxFileSize != 0) {?>
     <input type="hidden" name="MAX_FILE_SIZE" value="<?=$maxFileSize?>" />
     <?php } //if($maxFileSize != 0) ?>
 

@@ -40,9 +40,7 @@ class Rot13
                 $nNextEnd = mb_strpos($str, $sNextEndChar, $nNextStart);
 
                 if ($nNextEnd === false)
-                    $retval .= mb_substr($str, $nNextStart, mb_strlen($str) - mb_strlen($retval));
-                    else
-                        $retval .= mb_substr($str, $nNextStart, $nNextEnd - $nNextStart + 1);
+                    $retval .= mb_substr($str, $nNextStart, mb_strlen($str) - mb_strlen($retval)); else $retval .= mb_substr($str, $nNextStart, $nNextEnd - $nNextStart + 1);
             }
         }
 

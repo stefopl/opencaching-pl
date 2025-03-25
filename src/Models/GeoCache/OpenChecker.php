@@ -23,9 +23,9 @@ class OpenChecker
                 AND waypoints.cache_id = opensprawdzacz.cache_id
              LIMIT 1", $cacheId, Waypoint::TYPE_FINAL, Waypoint::OPENCHECKER_ENABLED);
 
-        if($row = XDb::xFetchArray($s)){
+        if ($row = XDb::xFetchArray($s)){
             $this->loadFromDbRow($row);
-        }else{
+        } else {
             throw new \Exception();
         }
 
@@ -34,9 +34,9 @@ class OpenChecker
 
     public static function ForCacheIdFactory($cacheId){
 
-        try{
+        try {
           return new OpenChecker($cacheId);
-        } catch(\Exception $e){
+        } catch (\Exception $e){
             return null;
         }
     }
@@ -65,8 +65,7 @@ class OpenChecker
      */
     public static function isEnabledInConfig(){
         global $config;
-        if($config['module']['openchecker']['enabled']) return true;
-        else return false;
+        if ($config['module']['openchecker']['enabled']) return true; else return false;
     }
 
 

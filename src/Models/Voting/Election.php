@@ -118,7 +118,7 @@ class Election extends BaseObject
         // save fact that user voted
         Voter::saveToDb($user, $this);
         // save votes
-        if(!empty($votes)) {
+        if (!empty($votes)) {
             Vote::saveToDb($this, $user, $votes);
         }
         $this->db->commit();

@@ -1,7 +1,7 @@
 
 <div class="content2-container">
 
-    <?php if(!$view->isUserLogged) { ?>
+    <?php if (!$view->isUserLogged) { ?>
       <!-- intro -->
       <div id="intro">
         <?=$view->introText?>
@@ -11,14 +11,14 @@
     use src\Controllers\CacheController; ?>
 
 
-    <?php if(!empty($view->newsList)){ ?>
+    <?php if (!empty($view->newsList)){ ?>
     <!-- news -->
     <div id="newsDiv">
         <div class="content-title-noshade-size3">
           <?=tr('news')?>
         </div>
 
-        <?php foreach($view->newsList as $news) { ?>
+        <?php foreach ($view->newsList as $news) { ?>
           <div class="newsItem">
             <div class="newsStatusLine">
               <img src="/images/free_icons/newspaper.png" alt="newsImage" class="icon16">
@@ -27,7 +27,7 @@
                 <?=$news->getTitle()?>
               </span>
               (<?=tr('news_lbl_author')?>:
-              <?php if($news->isAuthorHidden()) { ?>
+              <?php if ($news->isAuthorHidden()) { ?>
                 <strong><?=tr('news_OCTeam')?></strong>)
               <?php } else { // if-$news->isAuthorHidden() ?>
                 <a href="<?=$news->getAuthor()->getProfileUrl()?>" class="links">
@@ -42,7 +42,7 @@
     <?php } //if-!empty($view->newsList) ?>
 
 
-    <?php if(!$view->isUserLogged) { ?>
+    <?php if (!$view->isUserLogged) { ?>
     <!-- total Stats -->
       <?=$view->callSubTpl('/startPage/totalStatsSlider')?>
     <!-- /total Stats -->
@@ -65,7 +65,7 @@
       </div>
 
       <ul class="latestCachesList">
-        <?php foreach($view->latestCaches as $c){ ?>
+        <?php foreach ($view->latestCaches as $c){ ?>
           <li>
             <div>
               <a class="links highlite" href="<?=$c['link']?>"
@@ -107,7 +107,7 @@
       </div>
 
       <ul class="latestCachesList">
-        <?php foreach($view->incomingEvents as $c){ ?>
+        <?php foreach ($view->incomingEvents as $c){ ?>
           <li>
             <div>
                 <a class="links highlite" href="<?=$c['link']?>"
@@ -140,7 +140,7 @@
 
 
     <!-- latest-cacheSets -->
-    <?php if($view->displayLastCacheSets){ ?>
+    <?php if ($view->displayLastCacheSets){ ?>
         <div id="newestCacheSets">
           <div class="content-title-noshade-size3"
              title="<?=tr('startPage_validAt')?>: <?=$view->latestCacheSetsValidAt?>">
@@ -149,7 +149,7 @@
             <?php $view->callChunk('staticMap/staticMapMarker', $view->newestCsLegendMarker); ?>
           </div>
           <ul class="latestCachesList">
-          <?php foreach($view->lastCacheSets AS $cs){ ?>
+          <?php foreach ($view->lastCacheSets AS $cs){ ?>
             <li>
                 <a href="<?=$cs->getUrl()?>" class="links highlite"
                     onmouseover="highliteStaticMapMarker('<?='cs_'.$cs->getId()?>')"
@@ -165,7 +165,7 @@
                     <?=$cs->getName()?>
                   </a>
                   <?=tr('hidden_by')?>
-                  <?php foreach($cs->getOwners() as $csOwner) { ?>
+                  <?php foreach ($cs->getOwners() as $csOwner) { ?>
                     <a href="<?=$csOwner->getUserProfileUrl()?>" class="links">
                       <?=$csOwner->getUserName()?>
                     </a>
@@ -192,7 +192,7 @@
 
 
     <!-- titled caches -->
-    <?php if($view->titledCacheData){ ?>
+    <?php if ($view->titledCacheData){ ?>
     <div id="cacheTitled">
       <div>
           <div class="content-title-noshade-size3"
@@ -243,7 +243,7 @@
     <!-- /titled caches -->
 
 
-    <?php if($view->isUserLogged) { ?>
+    <?php if ($view->isUserLogged) { ?>
     <!-- total Stats -->
       <?=$view->callSubTpl('/startPage/totalStatsSlider') ?>
     <!-- /total Stats -->
@@ -252,7 +252,7 @@
 
     <!-- feeds -->
     <div id="feedsContainer">
-      <?php if($view->feedsData) { ?>
+      <?php if ($view->feedsData) { ?>
           <?=$view->callSubTpl('/startPage/feeds')?>
       <?php } else { //if-!feedsData ?>
         <?php $view->callChunk('dynamicHtmlLoad', $view->feedsUrl, 'feedsContainer'); ?>

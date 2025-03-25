@@ -18,7 +18,7 @@ class Vote extends BaseObject
 
     public static function saveToDb (Election $election, User $user, array $votes)
     {
-        if(empty($votes)) {
+        if (empty($votes)) {
             // there is nothing to save
             return;
         }

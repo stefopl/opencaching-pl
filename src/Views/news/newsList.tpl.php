@@ -10,7 +10,7 @@ use src\Utils\Uri\SimpleRouter;
     </a>
   </div>
 
-  <?php foreach($view->newsList as $news) { ?>
+  <?php foreach ($view->newsList as $news) { ?>
 
       <div class="callout callout-news callout-<?=$news->getStatusBootstrapName()?>">
       <div class="callout-news-status">

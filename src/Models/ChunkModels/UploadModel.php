@@ -102,7 +102,7 @@ class UploadModel {
   public function addUrlBaseToNewFilesArray(array &$newFiles){
       array_walk(
           $newFiles,
-          function(&$file, $key, $urlBase) { $file = $urlBase.'/'.$file; },
+          function (&$file, $key, $urlBase) { $file = $urlBase.'/'.$file; },
           $this->getBaseUrl());
   }
 
@@ -118,7 +118,7 @@ class UploadModel {
 
   public function getBaseUrl()
   {
-      if(!$this->urlBase){
+      if (!$this->urlBase){
         throw new \Exception("Trying to use unset baseUrl for uploaded file!");
       }
       return $this->urlBase;
@@ -134,13 +134,13 @@ class UploadModel {
    */
   protected function setDirs($dirInDirBasePath, $urlPath=null)
   {
-      if($dirInDirBasePath == self::DEFAULT_TMP_DIR) {
+      if ($dirInDirBasePath == self::DEFAULT_TMP_DIR) {
           $this->urlBase = null; // files are not accessible in TMP dir - it will be moved in separate code
           $this->dirAtServer = sys_get_temp_dir();
           return;
       }
 
-      if(!$urlPath) {
+      if (!$urlPath) {
           $this->urlBase = $dirInDirBasePath;
       } else {
           $this->urlBase = $urlPath;
@@ -158,7 +158,7 @@ class UploadModel {
       $this->maxFileSize = $maxSizeInMB * 1024 * 1024;
       $phpMaxFilesize = TextConverter::bytesNumberWithUnitToBytes(ini_get('upload_max_filesize'));
 
-      if($this->maxFileSize > $phpMaxFilesize) {
+      if ($this->maxFileSize > $phpMaxFilesize) {
           throw new \Exception("Uploaded size in model {$this->maxFileSize} > php.ini::upload_max_filesize ($phpMaxFilesize)");
       }
   }

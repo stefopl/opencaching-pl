@@ -58,7 +58,7 @@ use src\Models\GeoCache\CacheAttribute;
 
 <h1>Attributes tester</h1>
 
-<?php foreach(['pl', 'nl', 'ro','uk', 'us'] as $node) { ?>
+<?php foreach (['pl', 'nl', 'ro','uk', 'us'] as $node) { ?>
     <hr>
     <h2>oc<?=$node?></h2>
     <div>

@@ -49,30 +49,30 @@ class UserStats extends BaseObject
      */
     public static function getGeoPathsStarted($userId)
     {
-        OcMemCache::getOrCreate('UserStats:getGeoPathsStarted'.$userId, 31 * 24 * 60 * 60, function() use ($userId) {
+        OcMemCache::getOrCreate('UserStats:getGeoPathsStarted'.$userId, 31 * 24 * 60 * 60, function () use ($userId) {
             UserStats::updateProgressWithFoundCaches($userId);
             return true;
         });
 
         $geoPathsStarted = new \ArrayObject();
         $query = '
-        SELECT 
+        SELECT
             PowerTrail.*
-        FROM 
+        FROM
             powertrail_progress
-        JOIN 
+        JOIN
             PowerTrail ON powertrail_progress.pt_id = PowerTrail.id
-        WHERE 
+        WHERE
             powertrail_progress.user_id = :1
             AND PowerTrail.status = 1
             AND PowerTrail.id NOT IN (
-                SELECT PowerTrailId 
-                FROM PowerTrail_comments 
-                WHERE commentType = 2 
+                SELECT PowerTrailId
+                FROM PowerTrail_comments
+                WHERE commentType = 2
                 AND userId = :1
             )
             AND ((powertrail_progress.founds / PowerTrail.cacheCount) * 100) > 10
-        ORDER BY 
+        ORDER BY
             (powertrail_progress.founds / PowerTrail.cacheCount) * 100 DESC';
 
         $stmt = self::db()->multiVariableQuery($query, array($userId));
@@ -92,16 +92,16 @@ class UserStats extends BaseObject
         $geoPathsFoundCaches = new \ArrayObject();
 
         $query = '
-        SELECT 
+        SELECT
             pt.id AS powerTrailId,
             COUNT(DISTINCT ptc.cacheId) AS foundCaches
-        FROM 
+        FROM
             PowerTrail pt
-        JOIN 
+        JOIN
             powerTrail_caches ptc ON pt.id = ptc.PowerTrailId
-        JOIN 
+        JOIN
             cache_logs cl ON ptc.cacheId = cl.cache_id
-        WHERE 
+        WHERE
             pt.status = 1
             AND pt.id NOT IN (
                 SELECT PowerTrailId
@@ -111,9 +111,9 @@ class UserStats extends BaseObject
             )
             AND cl.user_id = :1
             AND cl.type = 1
-        GROUP BY 
+        GROUP BY
             pt.id
-        ORDER BY 
+        ORDER BY
             foundCaches DESC';
 
         $stmt = self::db()->multiVariableQuery($query, array($userId));

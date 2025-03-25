@@ -2,7 +2,7 @@
 
   <div class="content2-pagetitle"><?=tr('admCs_degradedCs')?></div>
 
-<?php if(!$view->noCsToArchive) { ?>
+<?php if (!$view->noCsToArchive) { ?>
 
   <div id="mapCanvas"></div>
 

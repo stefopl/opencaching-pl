@@ -95,14 +95,12 @@ class InputFilter
             return $source;
 
             // clean this string
-        }
-        else if (is_string($source)) {
+        } else if (is_string($source)) {
             // filter source for XSS and other 'bad' code etc.
             return $this->remove($this->decode($source));
 
             // return parameter as given
-        } else
-            return $source;
+        } else return $source;
     }
 
     /**
@@ -254,13 +252,10 @@ class InputFilter
 
                     // reformat single tags to XHTML
                     if (mb_strpos($fromTagOpen, "</" . $tagName))
-                        $preTag .= '>';
-                    else
-                        $preTag .= ' />';
+                        $preTag .= '>'; else $preTag .= ' />';
 
                     // just the tagname
-                } else
-                    $preTag .= '</' . $tagName . '>';
+                } else $preTag .= '</' . $tagName . '>';
             }
 
             // find next tag's start
