@@ -83,11 +83,11 @@ class CacheTitled extends BaseObject
             'SELECT * FROM cache_titled ORDER BY date_alg DESC LIMIT 1');
 
         $row = $db->dbResultFetchOneRowOnly($rs);
-        if(!empty($row)){
+        if (!empty($row)){
             $obj = new self();
             $obj->loadFromRow($row);
             return $obj;
-        }else{
+        } else {
             // strange - titledCaches table is empty ?!
             return null;
         }

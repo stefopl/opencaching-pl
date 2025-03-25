@@ -56,13 +56,13 @@ class UserPreferences extends BaseObject
      */
     public static function getUserPrefsByKeys(array $keys){
 
-        if(empty($keys)){
+        if (empty($keys)){
             return null;
         }
 
         // check keys
         foreach ($keys as $key){
-            if(!self::isKeyAllowed($key)){
+            if (!self::isKeyAllowed($key)){
                 Debug::errorLog("Unknown UserPreferences key = $key");
                 return null;
             }
@@ -82,7 +82,7 @@ class UserPreferences extends BaseObject
      */
     public static function savePreferencesJson($key, $json){
 
-        if( !self::isKeyAllowed($key) ){
+        if ( !self::isKeyAllowed($key) ){
             Debug::errorLog(__METHOD__.": Unknown key $key");
             return false;
         }
@@ -92,7 +92,7 @@ class UserPreferences extends BaseObject
 
         // find current userId
         $user = self::getCurrentUser();
-        if(is_null($user)){
+        if (is_null($user)){
             // user not logged!?
             return false;
         }
@@ -148,13 +148,13 @@ class UserPreferences extends BaseObject
 
     private function loadByKeys($keys){
 
-        if(empty($keys)){
+        if (empty($keys)){
             return;
         }
 
         /** @var User $user*/
         $user = self::getCurrentUser();
-        if(is_null($user)){
+        if (is_null($user)){
             return;
         }
 
@@ -163,7 +163,7 @@ class UserPreferences extends BaseObject
         $db = self::db();
 
         $quotedKeys = [];
-        foreach($keys as $k){
+        foreach ($keys as $k){
             $quotedKeys[] = $db->quote($k);
         }
         $keysStr = implode(',', $quotedKeys);
@@ -172,7 +172,7 @@ class UserPreferences extends BaseObject
             "SELECT * FROM user_preferences
              WHERE user_id = :1 AND `key` IN ( $keysStr )", $userId);
 
-        while($row = $db->dbResultFetch($stmt)){
+        while ($row = $db->dbResultFetch($stmt)){
             $key = $row['key'];
             $obj = self::getUserPrefObjForKey($key);
             $obj->setJsonValues($row['value']);
@@ -181,7 +181,7 @@ class UserPreferences extends BaseObject
 
         // add keys not found in DB with default values
         foreach ($keys as $key){
-            if(!array_key_exists($key, $this->dataObjects)){
+            if (!array_key_exists($key, $this->dataObjects)){
                 $obj = self::getUserPrefObjForKey($key);
                 $obj->loadDefaults();
                 $this->dataObjects[$key] = $obj;

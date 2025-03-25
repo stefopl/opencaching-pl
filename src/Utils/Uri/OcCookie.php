@@ -104,7 +104,7 @@ class OcCookie
         if (is_null(self::$ocData)) {
             if (isset($_COOKIE[self::getOcCookieName()])) {
                 self::$ocData = json_decode(base64_decode($_COOKIE[self::getOcCookieName()]));
-                if(!is_object(self::$ocData)){
+                if (!is_object(self::$ocData)){
                     self::$ocData = new \stdClass();
                 }
             } else {

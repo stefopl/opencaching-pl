@@ -176,7 +176,7 @@ use src\Models\GeoCache\GeoCache;
     </div>
 </div>
 
-<?php if( isset($view->cacheSet) ) { ?>
+<?php if ( isset($view->cacheSet) ) { ?>
 <div class="mapFilterContainer">
     <div class="mapFiltersHeader"><?=tr('map_csFilter')?></div>
     <div class="mapFiltersControls">

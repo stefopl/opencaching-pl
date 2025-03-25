@@ -16,7 +16,7 @@
             </a>
           </li>
 
-          <?php if(isset($view->displayFindStats)) { ?>
+          <?php if (isset($view->displayFindStats)) { ?>
           <li class="group">
             <a style="background-image: url(images/actions/stat-18.png);background-repeat:no-repeat;"
                href="/ustatsg2.php?userid=<?=$view->userId?>">
@@ -25,7 +25,7 @@
           </li>
           <?php } //if-displayFindStats ?>
 
-          <?php if(isset($view->displayCreatedStats)) { ?>
+          <?php if (isset($view->displayCreatedStats)) { ?>
           <li class="group">
             <a style="background-image: url(images/actions/stat-18.png);background-repeat:no-repeat;"
                href="/ustatsg1.php?userid=<?=$view->userId?>">

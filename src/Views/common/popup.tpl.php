@@ -12,24 +12,24 @@ use src\Utils\I18n\I18n;
   <link rel="shortcut icon" href="<?=OcConfig::getSiteMainViewIcon('shortcutIcon')?>">
   <link rel="stylesheet" type="text/css" href="/css/popup.css">
 
-  <?php foreach( $view->getLocalCss() as $css ) { ?>
+  <?php foreach ( $view->getLocalCss() as $css ) { ?>
     <link rel="stylesheet" type="text/css" href="<?=$css?>">
   <?php } //foreach-css ?>
 
   <?php
-      if( $view->isGoogleAnalyticsEnabled() ){
+      if ( $view->isGoogleAnalyticsEnabled() ){
                 $view->callChunkOnce( 'googleAnalytics', $view->getGoogleAnalyticsKey() );
       }
-      if( $view->isjQueryEnabled()){
+      if ( $view->isjQueryEnabled()){
           $view->callChunk('jQuery');
       }
-      if( $view->isjQueryUIEnabled()){
+      if ( $view->isjQueryUIEnabled()){
           $view->callChunk('jQueryUI');
       }
-      if( $view->isTimepickerEnabled()){
+      if ( $view->isTimepickerEnabled()){
           $view->callChunk('timepicker');
       }
-      if( $view->isFancyBoxEnabled()){
+      if ( $view->isFancyBoxEnabled()){
           $view->callChunk('fancyBoxLoader', true, false);
       }
   ?>
@@ -41,7 +41,7 @@ use src\Utils\I18n\I18n;
 
   <?php
       // fancyBox js should be loaded at th end of page
-      if( $view->isFancyBoxEnabled()){
+      if ( $view->isFancyBoxEnabled()){
           $view->callChunk('fancyBoxLoader', false, true);
       }
   ?>

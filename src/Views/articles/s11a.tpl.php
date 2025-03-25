@@ -29,7 +29,7 @@ if (OcConfig::debugModeEnabled())
                 "SELECT `code`, `name` FROM `nuts_codes`
                 WHERE (" . $config['provinceNutsCondition'] . ") ORDER BY `name` ASC");
 
-            while( $record = XDb::xFetchArray($rs) ){
+            while ( $record = XDb::xFetchArray($rs) ){
 
                 echo '<tr class="bgcolor2">
             <td align="right">

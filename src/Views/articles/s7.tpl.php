@@ -17,7 +17,7 @@
 
 # This page took >60 seconds to render! Added daily caching.
 
-echo OcMemCache::getOrCreate("articles_s7-" . I18n::getCurrentLang(), 86400, function() {
+echo OcMemCache::getOrCreate("articles_s7-" . I18n::getCurrentLang(), 86400, function () {
     ob_start();
 
     $rsUs["count"] = XDb::xSimpleQueryValue(

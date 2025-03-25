@@ -14,27 +14,27 @@
         <?php $view->callChunk($chunkName, ...$args); ?>
     <?php } //foreach getHeaderChunks ?>
 
-    <?php foreach( $view->getLocalCss() as $css ) { ?>
+    <?php foreach ( $view->getLocalCss() as $css ) { ?>
       <link rel="stylesheet" type="text/css" href="<?=$css?>">
     <?php } //foreach-css ?>
 
     <?php
         $view->callChunk('bootstrapCss'); // always load bootstrap
 
-        if( $view->isGoogleAnalyticsEnabled() ){
+        if ( $view->isGoogleAnalyticsEnabled() ){
             $view->callChunkOnce( 'googleAnalytics', $view->getGoogleAnalyticsKey() );
         }
-        if( $view->isjQueryUIEnabled()){
+        if ( $view->isjQueryUIEnabled()){
             $view->callChunk('jQueryUI');
         }
-        if( $view->isTimepickerEnabled()){
+        if ( $view->isTimepickerEnabled()){
             $view->callChunk('timepicker');
         }
-        if( $view->isFancyBoxEnabled()){
+        if ( $view->isFancyBoxEnabled()){
             $view->callChunk('fancyBoxLoader', true, false);
         }
 
-        foreach( $view->getLocalJs() as $js ) {
+        foreach ( $view->getLocalJs() as $js ) {
             if (! $js['defer']) {?>
               <script src="<?=$js['url']?>"<?=$js['async'] ? ' async' : ''?>></script>
     <?php   }
@@ -44,7 +44,7 @@
         // JS scripts to loaded at the end
         $view->callChunk('jQuery');      // always load jQuery
         $view->callChunk('bootstrapJs'); // always load bootstrap
-        if( $view->isFancyBoxEnabled()){
+        if ( $view->isFancyBoxEnabled()){
             $view->callChunk('fancyBoxLoader', false, true);
         }
     ?>

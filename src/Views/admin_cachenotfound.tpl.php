@@ -23,7 +23,7 @@
         <tr class="form-group">
             <td style="padding: 5px">
                 <select name='regionSel' class="form-control input200">
-                    <?php foreach( $GLOBALS['regions'] as $code => $regionName ) { ?>
+                    <?php foreach ( $GLOBALS['regions'] as $code => $regionName ) { ?>
                         <option value="<?=$code?>"><?=$regionName?></option>
                     <?php } //foreach ?>
                 </select>

@@ -20,11 +20,11 @@ return function (ListOfCaches $m){
   <table class="bs-table table-striped">
       <thead></thead>
       <tbody>
-  <?php foreach($m->caches() as $cache) { ?>
+  <?php foreach ($m->caches() as $cache) { ?>
         <tr>
 
           <td>
-            <?php if($cache->ptEnabled) { ?>
+            <?php if ($cache->ptEnabled) { ?>
               <a href="powerTrail.php?ptAction=showSerie&amp;ptrail=<?=$cache->ptId?>">
                 <img src="<?=$cache->ptIcon?>" class="icon16" alt="" title="<?=$cache->ptName?>" />
               </a>
@@ -38,7 +38,7 @@ return function (ListOfCaches $m){
             <?=$cache->date?>
           </td>
 
-          <?php if($m->recoCol()){ ?>
+          <?php if ($m->recoCol()){ ?>
               <td class="cell-favorite">
                 <?=$cache->recoNum?>
               </td>
@@ -50,20 +50,20 @@ return function (ListOfCaches $m){
               </a>
           </th>
 
-          <?php if($cache->logIcon){ ?>
+          <?php if ($cache->logIcon){ ?>
             <td>
               <img src="<?=$cache->logIcon?>" class="icon16" alt="Cache" title="Cache" />
             </td>
-          <?php }if($cache->logIcon) //?>
+          <?php }if ($cache->logIcon) //?>
 
           <td>
-            <?php if($m->logTooltipEnabled()) { ?>
+            <?php if ($m->logTooltipEnabled()) { ?>
               <a href="viewprofile.php?userid=<?=$cache->userId?>"
                  onmouseover="Tip('<?=$cache->logText?>', PADDING,5,WIDTH,280,SHADOW,true)"
                  onmouseout="UnTip()" >
                 <?=$cache->userName?>
             </a>
-            <?php }else{ //$cache->userName ?>
+            <?php } else { //$cache->userName ?>
               <a href="viewprofile.php?userid=<?=$cache->userId?>">
                 <?=$cache->userName?>
               </a>

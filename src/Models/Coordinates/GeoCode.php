@@ -63,7 +63,7 @@ class GeoCode
 
         $resp = json_decode($data);
 
-        if(isset($resp->error)) {
+        if (isset($resp->error)) {
             $error = " ".$resp->error;
             Debug::errorLog('Problem with fetching data from ' . $url . $error);
             throw new Exception('Problem with fetching data from OpenRouteService'.$error);

@@ -84,14 +84,14 @@ new Chart(document.getElementById('resultsBarChart'), {
             data: <?=$result->getListOfVotesCountAsJson()?>,
             backgroundColor: [
                 // 'rgba(255, 99, 132, 0.2)',
-                <?php foreach($result->getOptionsList() as $opt) { ?>
+                <?php foreach ($result->getOptionsList() as $opt) { ?>
                   <?php $rgb = ColorGenerator::rgb($result->getColorForOption($opt));?>
                   'rgba(<?=implode(',', $rgb)?>,0.2)', /* <?=$result->getColorForOption($opt)?> */
                 <?php } //foreach ?>
             ],
             borderColor: [
               // 'rgba(255, 99, 132, 1)',
-              <?php foreach($result->getOptionsList() as $opt) { ?>
+              <?php foreach ($result->getOptionsList() as $opt) { ?>
                 <?php $rgb = ColorGenerator::rgb($result->getColorForOption($opt));?>
                 'rgba(<?=implode(',', $rgb)?>,1)',
               <?php } //foreach ?>

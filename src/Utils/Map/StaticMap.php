@@ -426,7 +426,7 @@ class StaticMap
 
         $color = imagecolorallocate($img, 0, 0, 0);
         $ypos = 0;
-        for($i = 0; $i < $len; $i++) {
+        for ($i = 0; $i < $len; $i++) {
             // Position of the character horizontally
             $xpos = $i * imagefontwidth($font_size);
             // Draw character

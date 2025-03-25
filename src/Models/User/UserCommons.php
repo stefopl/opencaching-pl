@@ -25,7 +25,7 @@ class UserCommons extends BaseObject
 
     public function getRoleName($roleId)
     {
-        switch($roleId)
+        switch ($roleId)
         {
             case self::ROLE_OC_TEAM: return 'ocTeamMember';
             case self::ROLE_ADV_USER: return 'advUser';

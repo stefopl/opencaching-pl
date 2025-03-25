@@ -38,7 +38,7 @@ class CacheSetCommon extends BaseObject
 
     public static function GetTypeTranslationKey($type)
     {
-        switch($type){
+        switch ($type){
             case self::TYPE_GEODRAW:    return 'cs_typeGeoDraw';
             case self::TYPE_TOURING:    return 'cs_typeTouring';
             case self::TYPE_NATURE:     return 'cs_typeNature';
@@ -54,7 +54,7 @@ class CacheSetCommon extends BaseObject
     {
         $iconPath = '/images/blue/';
 
-        switch($type){
+        switch ($type){
             case self::TYPE_GEODRAW:    return $iconPath.'footprintRed.png';
             case self::TYPE_TOURING:    return $iconPath.'footprintBlue.png';
             case self::TYPE_NATURE:     return $iconPath.'footprintGreen.png';
@@ -68,7 +68,7 @@ class CacheSetCommon extends BaseObject
 
     public static function GetStatusTranslationKey($status)
     {
-        switch($status){
+        switch ($status){
             case self::STATUS_OPEN:             return 'cs_statusPublic';
             case self::STATUS_UNAVAILABLE:      return 'cs_statusNotYetAvailable';
             case self::STATUS_CLOSED:           return 'cs_statusClosed';
@@ -146,7 +146,7 @@ class CacheSetCommon extends BaseObject
         $altitude = round($cache->getAltitude());
         if ($altitude <= 400){
             $altPoints = 1;
-        }else{
+        } else {
             $altPoints = 1 + ($altitude - 400) / 200;
         }
 

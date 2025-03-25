@@ -44,7 +44,7 @@ use src\Controllers\UserWatchedCachesController;
   <span id="watch_hour_selector">
     <?=tr('notify_settings_atHour')?>
     <select id="hourSelect" name="watchmail_hour" onChange="notifySettingsChange()" class="form-control input100">
-      <?php for($hour=0; $hour<24; $hour++) { ?>
+      <?php for ($hour=0; $hour<24; $hour++) { ?>
         <option value="<?=$hour?>"><?=sprintf('%02d:00', $hour)?></option>
       <?php } //for ?>
     </select>

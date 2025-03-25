@@ -30,7 +30,7 @@ return function (StaticMapModel $m){
     <img src="<?=$m->getMapImgSrc()?>" alt="<?=$m->getMapTitle()?>" title="<?=$m->getMapTitle()?>" />
 
     <!-- markers -->
-    <?php foreach($m->getMapMarkers() as $mx) {
+    <?php foreach ($m->getMapMarkers() as $mx) {
         View::callChunkInline('staticMap/staticMapMarker', $mx);
     } //foreach mapMarkers ?>
 

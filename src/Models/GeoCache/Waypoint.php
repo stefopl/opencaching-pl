@@ -165,7 +165,7 @@ class Waypoint extends WaypointCommons
     public static function GetWaypointsForCacheId(GeoCache $geoCache, $skipHiddenWps=true){
 
 
-        if($geoCache->getCacheType() == GeoCache::TYPE_MOVING){
+        if ($geoCache->getCacheType() == GeoCache::TYPE_MOVING){
             // mobiles can't have waypoints...
             return [];
         }
@@ -178,9 +178,9 @@ class Waypoint extends WaypointCommons
             $geoCache->getCacheId());
 
         $results = [];
-        while($row = XDb::xFetchArray($s)){
+        while ($row = XDb::xFetchArray($s)){
             $wp = Waypoint::FromDbRow($row);
-            if( !$wp->isHidden() || !$skipHiddenWps ){
+            if ( !$wp->isHidden() || !$skipHiddenWps ){
                 $results[] = $wp;
             }
         }

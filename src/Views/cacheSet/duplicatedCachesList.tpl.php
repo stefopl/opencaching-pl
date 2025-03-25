@@ -32,7 +32,7 @@ table.center {
   </tr>
 
 <?php /* @var $c GeoCache */ ?>
-<?php foreach($v->caches as $c) { ?>
+<?php foreach ($v->caches as $c) { ?>
 <tr>
   <td><?=$c->getCacheId()?></td>
   <td><?=$c->getGeocacheWaypointId()?></td>

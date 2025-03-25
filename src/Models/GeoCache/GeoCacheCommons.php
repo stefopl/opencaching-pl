@@ -426,7 +426,7 @@ class GeoCacheCommons extends BaseObject {
      */
     public static function CacheRatingTranslationKey($ratingId)
     {
-        switch($ratingId) {
+        switch ($ratingId) {
             case 1: return 'rating_poor';
             case 2: return 'rating_mediocre';
             case 3: return 'rating_avarage';

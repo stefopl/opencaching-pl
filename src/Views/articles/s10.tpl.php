@@ -50,7 +50,7 @@ if (isset($_REQUEST['region'])) {
             $rank = 0; // rank number; increamented by one for each group of users having the same caches discovered
             $position = 1; // position ex aequo; incremented by number of users in each rank
 
-            while( $line = XDb::xFetchArray($r) ) {
+            while ( $line = XDb::xFetchArray($r) ) {
                 $color = "black";
                 $banned = "";
                 $loggedUser = ApplicationContainer::GetAuthorizedUser();

@@ -6,8 +6,7 @@
  *
  * After refactoring all views it should be moved to the View class.
  */
-namespace
-{
+namespace {
     use src\Utils\I18n\I18n;
 
     /**

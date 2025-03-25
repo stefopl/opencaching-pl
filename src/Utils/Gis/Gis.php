@@ -137,9 +137,7 @@ class Gis
         if ($bearing < 326.25)
             return tr($form . '_nw');
         if ($bearing <= 348.75)
-            return tr($form . '_nnw');
-        else
-            return 'N/A';
+            return tr($form . '_nnw'); else return 'N/A';
     }
 
     /**

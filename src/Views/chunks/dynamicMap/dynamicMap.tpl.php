@@ -26,7 +26,7 @@ return function (DynamicMapModel $mapModel, $canvasId){
     "/views/chunks/dynamicMap/dynamicMapCommons.js")?>"></script>
 
 <!-- load markers popup templates -->
-<?php foreach($mapModel->getMarkerTypes() as $markerType) { ?>
+<?php foreach ($mapModel->getMarkerTypes() as $markerType) { ?>
   <script type="text/x-handlebars-template" class="<?=$markerType?>" >
     <?php include(__DIR__.'/markers/'.$markerType.'Popup.tpl.php'); ?>
   </script>
@@ -46,7 +46,7 @@ var dynamicMapParams_<?=$canvasId?> = {
   infoMessage: "<?=$mapModel->getInfoMessage()?>",
   markerData: <?=$mapModel->getMarkersDataJson()?>,
   markerMgr: {
-    <?php foreach($mapModel->getMarkerTypes() as $markerType) { ?>
+    <?php foreach ($mapModel->getMarkerTypes() as $markerType) { ?>
       <?=$markerType?>: <?php include(__DIR__.'/markers/'.$markerType.'Mgr.tpl.php'); ?>,
     <?php } //foreach $markerTypes ?>
   },

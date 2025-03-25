@@ -61,7 +61,7 @@ class StaticMapModel
     public function addMarker(StaticMapMarker $m)
     {
         // filter out markers with coords outside of the map img
-        if($m->top < 0 || $m->top > $this->imgHeight ||
+        if ($m->top < 0 || $m->top > $this->imgHeight ||
             $m->left < 0 || $m->left > $this->imgWidth){
             return;
         }

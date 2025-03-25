@@ -102,7 +102,7 @@ use src\Utils\View\View;
           <td class="news-left-column content-title-noshade"><?=tr('news_lbl_category')?></td>
           <td>
           <select name="category" class="form-control input200">
-            <?php foreach($view->allCategories as $cat) { ?>
+            <?php foreach ($view->allCategories as $cat) { ?>
             <option value="<?=$cat?>" <?=($view->news->getCategory()==$cat)?'selected':''?>><?=ltrim($cat, '_') ?></option>
             <?php } //foreach ?>
           </select>

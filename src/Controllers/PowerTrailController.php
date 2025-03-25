@@ -67,7 +67,7 @@ class PowerTrailController
             ->setType($type)
             ->setText($text)
             ->storeInDb();
-        if($result){
+        if ($result){
             \sendEmail::emailOwners($powerTrail->getId(), $log->getType(), $dateTime->format('Y-m-d H:i'), $text, 'newComment');
         }
         return $result;

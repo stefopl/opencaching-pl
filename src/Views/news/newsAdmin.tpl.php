@@ -20,7 +20,7 @@ use src\Models\News\News;
       <option value='<?=News::CATEGORY_ANY?>' <?=$view->selectedCategory == '' ?'selected':''?>>
         <?=tr('news_allCategories')?>
       </option>
-      <?php foreach($view->allCategories as $cat) { ?>
+      <?php foreach ($view->allCategories as $cat) { ?>
         <option value="<?=$cat?>" <?=$view->selectedCategory == $cat?'selected':''?>>
         <?=ltrim($cat, '_')?>
         </option>
@@ -28,13 +28,13 @@ use src\Models\News\News;
     </select>
   </div>
 
-  <?php if(empty($view->newsList)) { ?>
+  <?php if (empty($view->newsList)) { ?>
     <div class="callout callout-news">
       <p><?=tr('news_noNews')?></p>
     </div>
   <?php } // if(empty($view->newsList)) ?>
 
-  <?php foreach($view->newsList as /** @var News $news */ $news) { ?>
+  <?php foreach ($view->newsList as /** @var News $news */ $news) { ?>
     <div class="callout callout-news callout-<?=$news->getStatusBootstrapName()?>">
       <div class="callout-news-status">
         <span class="news-right">

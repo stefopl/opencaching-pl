@@ -53,11 +53,11 @@ class QueryBuilder
 
     public function select($columns=null){
         $this->method = "SELECT";
-        if(!is_null($columns)){
+        if (!is_null($columns)){
 
-            if(is_array($columns)){
+            if (is_array($columns)){
                 $this->columns = implode(',',$columns);
-            }else{
+            } else {
                 $this->columns = $columns;
             }
         }
@@ -76,7 +76,7 @@ class QueryBuilder
     }
 
     public function where($column=null, $value=null){
-        if($column && $value){
+        if ($column && $value){
             $this->eq($column, $value);
         }
         return $this;
@@ -91,7 +91,7 @@ class QueryBuilder
 
     public function in($column, array $arrayOfValues)
     {
-        if(!empty($arrayOfValues)){
+        if (!empty($arrayOfValues)){
             $queryStr = self::escapeStr(implode(',',$arrayOfValues));
             $this->wheres[] = "$column IN ($queryStr)";
         }
@@ -121,7 +121,7 @@ class QueryBuilder
 
     private function getWhereString()
     {
-        if(!empty($this->wheres)){
+        if (!empty($this->wheres)){
             return ' WHERE '.implode(' AND ', $this->wheres);
         }
         return '';
@@ -129,7 +129,7 @@ class QueryBuilder
 
     private function getGroupByString()
     {
-        if(!empty($this->groupBy)){
+        if (!empty($this->groupBy)){
             return ' GROUP BY '.implode(',', $this->groupBy);
         }
         return '';
@@ -138,10 +138,10 @@ class QueryBuilder
     private function getLimitString()
     {
         $result = "";
-        if(!is_null($this->limit)){
+        if (!is_null($this->limit)){
             $result .= " LIMIT ".$this->limit;
         }
-        if(!is_null($this->offset)){
+        if (!is_null($this->offset)){
             $result .= " OFFSET ".$this->offset;
         }
         return $result;

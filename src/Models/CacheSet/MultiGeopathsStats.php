@@ -65,7 +65,7 @@ class MultiGeopathsStats extends BaseObject
             "SELECT * FROM  PowerTrail WHERE id IN ($gpIdsStr) LIMIT $limit");
 
         $result = [];
-        while($data = $db->dbResultFetch($rs)) {
+        while ($data = $db->dbResultFetch($rs)) {
             $path = new CacheSet();
             $path->loadFromDbRow($data);
             $result[$path->getId()] = $path;

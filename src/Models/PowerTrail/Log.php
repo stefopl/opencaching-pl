@@ -114,13 +114,13 @@ class Log
     public function storeInDb()
     {
         $db = OcDb::instance();
-        if($_REQUEST['type'] == Log::TYPE_CONQUESTED && $this->powerTrail->isAlreadyConquestedByUser($this->user)){ /* atempt to add second 'conquested' log */
+        if ($_REQUEST['type'] == Log::TYPE_CONQUESTED && $this->powerTrail->isAlreadyConquestedByUser($this->user)){ /* atempt to add second 'conquested' log */
             return false;
         }
-        if($this->id){
+        if ($this->id){
             exit('TODO');
         } else {
-            if($this->type === self::TYPE_ADD_WARNING && $this->user->hasOcTeamRole() === false){
+            if ($this->type === self::TYPE_ADD_WARNING && $this->user->hasOcTeamRole() === false){
                 return false; /* regular user is not allowed to add entry of this type */
             }
             $query = 'INSERT INTO `PowerTrail_comments`
@@ -128,7 +128,7 @@ class Log
                        `logDateTime`, `dbInsertDateTime`, `deleted`, uuid)
                       VALUES (:1, :2, :3, :4, :5, NOW(),0, '.Uuid::getSqlForUpperCaseUuid().')';
             $db->multiVariableQuery($query, $this->user->getUserId(), $this->powerTrail->getId(), $this->type, $this->text, $this->dateTime->format('Y-m-d H:i:s'));
-            if($this->type == self::TYPE_CONQUESTED){
+            if ($this->type == self::TYPE_CONQUESTED){
                 $this->powerTrail->increaseConquestedCount();
             }
         }
@@ -139,8 +139,8 @@ class Log
     private function changePowerTrailStatusAfterLog()
     {
         $expectedPowerTarilStatus = $this->getPowerTrailStatusByLogType();
-        if($expectedPowerTarilStatus && $this->powerTrail->getStatus() != $expectedPowerTarilStatus){ // update powerTrail status
-            if($this->type === self::TYPE_OPENING && $this->powerTrail->canBeOpened() === false){ // power Trail do not meet critertia to be opened.
+        if ($expectedPowerTarilStatus && $this->powerTrail->getStatus() != $expectedPowerTarilStatus){ // update powerTrail status
+            if ($this->type === self::TYPE_OPENING && $this->powerTrail->canBeOpened() === false){ // power Trail do not meet critertia to be opened.
                 return;
             }
             $this->powerTrail->setAndStoreStatus($expectedPowerTarilStatus);

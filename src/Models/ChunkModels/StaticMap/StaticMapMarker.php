@@ -29,7 +29,7 @@ class StaticMapMarker
     public function getClasses(){
         $cssClasses = [];
 
-        if($this->tooltip){
+        if ($this->tooltip){
             $cssClasses[]='lightTipped';
         }
 

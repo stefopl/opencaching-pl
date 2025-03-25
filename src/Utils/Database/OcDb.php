@@ -608,7 +608,7 @@ class OcDb extends OcPdo
      */
     public static function quoteLimit($limit)
     {
-        if(is_null($limit)){
+        if (is_null($limit)){
             // nulled limit means that there is no limit
             $limit = 'max';
         }

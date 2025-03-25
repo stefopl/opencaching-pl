@@ -7,13 +7,13 @@
   <input type="submit" />
 </form>
 
-<?php if(!empty($view->errorHTML)) { ?>
+<?php if (!empty($view->errorHTML)) { ?>
     <h3>Error:</h3>
     <?=$view->errorHTML?>
     <hr/>
 <?php } //if-empty(errorHTML) ?>
 
-<?php if(!empty($view->cleanedHTML)) { ?>
+<?php if (!empty($view->cleanedHTML)) { ?>
   <h3>Cleaned HTML:</h3>
 
   <hr/>

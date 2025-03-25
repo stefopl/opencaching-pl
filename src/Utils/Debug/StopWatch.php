@@ -24,7 +24,7 @@ class StopWatch {
      */
     public static function click($name)
     {
-        if($instance = self::instance()){
+        if ($instance = self::instance()){
             $instance->stages[$name] = microtime();
         }
     }
@@ -35,7 +35,7 @@ class StopWatch {
      */
     public static function getResults()
     {
-        if(! $instance = self::instance()){
+        if (! $instance = self::instance()){
             return null;
         }
 
@@ -48,16 +48,16 @@ class StopWatch {
         foreach ($instance->stages as $stageName => $stageTime){
             $ms = self::microTimeToMs($stageTime);
 
-            if(is_null($start)){
+            if (is_null($start)){
                 $start = $ms;
                 $fromStart = 0;
-            }else{
+            } else {
                 $fromStart = number_format($ms-$start, 4);
             }
 
-            if( is_null($last) ){
+            if ( is_null($last) ){
                 $fromLast = '-';
-            }else{
+            } else {
                 $fromLast = number_format($ms - $last, 4);
             }
 
@@ -73,7 +73,7 @@ class StopWatch {
      */
     public static function displayResults()
     {
-        if($results = self::getResults()) {
+        if ($results = self::getResults()) {
             d($results);
         }
     }
@@ -83,7 +83,7 @@ class StopWatch {
      */
     public static function reset()
     {
-        if( $instance = self::instance() ){
+        if ( $instance = self::instance() ){
             $instance->stages = [];
         }
     }
@@ -92,10 +92,10 @@ class StopWatch {
     {
         static $instance = null;
         if ($instance === null) {
-            if(isset($_REQUEST[self::SWICH_VAR])){
+            if (isset($_REQUEST[self::SWICH_VAR])){
                 $instance = new static();
                 return $instance;
-            }else{
+            } else {
                 return null;
             }
         }

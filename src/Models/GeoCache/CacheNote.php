@@ -108,7 +108,7 @@ class CacheNote extends BaseObject
 
     public static function getNotesByCacheIds(array $cacheIds, $userId)
     {
-        if(empty($cacheIds)){
+        if (empty($cacheIds)){
             return [];
         }
         $db = self::db();

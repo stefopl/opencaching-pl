@@ -34,7 +34,7 @@ return function ($media = true, $selector = '.tinymce', $filePickerCallback=null
 <script>
   tinymce.init({
     selector: "<?=$selector?>",
-    <?php if($filePickerCallback) { ?>
+    <?php if ($filePickerCallback) { ?>
       file_picker_callback: <?=$filePickerCallback?>,
     <?php } //if($filePickerCallback) ?>
     image_advtab: true,

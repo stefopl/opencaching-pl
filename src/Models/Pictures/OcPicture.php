@@ -204,18 +204,18 @@ class OcPicture extends BaseObject
     public static function getThumbUrl($uuid, $showSpoiler, $size)
     {
         // first just try to locate such thumbnail
-        if($thumbUrl = Thumbnail::getUrl($uuid, $showSpoiler, $size)){
+        if ($thumbUrl = Thumbnail::getUrl($uuid, $showSpoiler, $size)){
             return $thumbUrl;
         }
 
         // thumbnail not found - try to generate new one
         $instance = self::fromUuidFactory($uuid);
-        if(!$instance) {
+        if (!$instance) {
             // there is no picture with given uuid
             return Thumbnail::PHD_ERROR_404;
         }
 
-        if($thumbUrl = $instance->regenerateThumbnails($size)) {
+        if ($thumbUrl = $instance->regenerateThumbnails($size)) {
             return $thumbUrl;
         }
 
@@ -238,8 +238,8 @@ class OcPicture extends BaseObject
 
     private function loadFromRow(array $row)
     {
-        foreach($row as $col=>$val){
-            switch($col){
+        foreach ($row as $col=>$val){
+            switch ($col){
                 case 'id':
                     $this->id = $val;
                     break;
@@ -331,7 +331,7 @@ class OcPicture extends BaseObject
             return true;
         }
 
-        switch($this->parentType) {
+        switch ($this->parentType) {
             case self::TYPE_CACHE:
                 $cache = $this->getParent();
                 return $cache->getOwnerId() == $user->getUserId();
@@ -361,7 +361,7 @@ class OcPicture extends BaseObject
 
     public function remove(User $user)
     {
-        if(!$this->isUserAllowedToModifyIt($user)) {
+        if (!$this->isUserAllowedToModifyIt($user)) {
             return false;
         }
 
@@ -384,7 +384,7 @@ class OcPicture extends BaseObject
         }
 
         $path = $this->getPathToImg();
-        if($path) {
+        if ($path) {
             // remove main image
             FileManager::removeFile($path);
         }
@@ -413,7 +413,7 @@ class OcPicture extends BaseObject
 
     public function getParent()
     {
-        if($this->parent) {
+        if ($this->parent) {
             return $this->parent;
         }
 
@@ -434,11 +434,11 @@ class OcPicture extends BaseObject
      */
     private function regenerateThumbnails($size=null)
     {
-        if(!$this->isLocalImg()) {
+        if (!$this->isLocalImg()) {
             return Thumbnail::placeholderUri(Thumbnail::PHD_EXTERN);
         }
 
-        if(!$this->getPathToImg()) {
+        if (!$this->getPathToImg()) {
             // strange - there is image in DB but no such image on disk
             Debug::errorLog("Can't find image uuid={$this->uuid}");
             return Thumbnail::placeholderUri(Thumbnail::PHD_ERROR_INTERN);

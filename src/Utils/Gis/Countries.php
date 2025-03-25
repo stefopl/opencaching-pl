@@ -22,7 +22,7 @@ class Countries
         }
 
         // read countries list from file
-        return OcMemCache::getOrCreate("allCountriesList", 3600, function(){
+        return OcMemCache::getOrCreate("allCountriesList", 3600, function (){
             $allCountriesStr = file_get_contents(self::ALL_COUNTRIES_JSON);
             return json_decode($allCountriesStr);
         });

@@ -19,7 +19,7 @@ return function (PaginationModel $pagination){
 
 // begining of chunk
 
-    if( count($pagination->getPagesList()) < 2 ){
+    if ( count($pagination->getPagesList()) < 2 ){
         // there is only one page - so hide pagination
         return;
     }
@@ -38,11 +38,11 @@ return function (PaginationModel $pagination){
 </script>
 
 <div>
-  <?php if(!$pagination->error()) { ?>
+  <?php if (!$pagination->error()) { ?>
     <ul class="pagination">
-      <?php foreach($pagination->getPagesList() as $page) { ?>
+      <?php foreach ($pagination->getPagesList() as $page) { ?>
 
-        <?php if($page->isActive){ ?>
+        <?php if ($page->isActive){ ?>
         <li>
             <a class="active" href="<?=$page->link?>" title="<?=$page->tooltip?>">
                 <?=$page->text?></a></li>

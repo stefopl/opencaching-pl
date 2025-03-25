@@ -23,7 +23,7 @@ class CacheStats extends BaseObject
      */
     public static function getChartDataCacheTypes()
     {
-        return OcMemCache::getOrCreate(__METHOD__.I18n::getCurrentLang(), 24*60*60, function() {
+        return OcMemCache::getOrCreate(__METHOD__.I18n::getCurrentLang(), 24*60*60, function () {
             return self::generateChartDataCacheTypes();
         });
     }
@@ -64,7 +64,7 @@ class CacheStats extends BaseObject
      */
     public static function getChartDataCachesFound()
     {
-        return OcMemCache::getOrCreate(__METHOD__.I18n::getCurrentLang(), 24*60*60, function() {
+        return OcMemCache::getOrCreate(__METHOD__.I18n::getCurrentLang(), 24*60*60, function () {
             return self::generateChartDataCachesFound();
         });
     }
