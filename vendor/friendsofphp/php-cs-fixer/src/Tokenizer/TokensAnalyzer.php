@@ -36,11 +36,15 @@ final class TokensAnalyzer
      */
     private Tokens $tokens;
 
-    private ?GotoLabelAnalyzer $gotoLabelAnalyzer = null;
+    /**
+     * @readonly
+     */
+    private GotoLabelAnalyzer $gotoLabelAnalyzer;
 
     public function __construct(Tokens $tokens)
     {
         $this->tokens = $tokens;
+        $this->gotoLabelAnalyzer = new GotoLabelAnalyzer();
     }
 
     /**
@@ -368,15 +372,40 @@ final class TokensAnalyzer
 
         if (
             $this->tokens[$nextIndex]->equalsAny(['(', '{'])
-            || $this->tokens[$nextIndex]->isGivenKind([T_AS, T_DOUBLE_COLON, T_ELLIPSIS, T_NS_SEPARATOR, CT::T_RETURN_REF, CT::T_TYPE_ALTERNATION, CT::T_TYPE_INTERSECTION, T_VARIABLE])
+            || $this->tokens[$nextIndex]->isGivenKind([T_DOUBLE_COLON, T_ELLIPSIS, T_NS_SEPARATOR, CT::T_RETURN_REF, CT::T_TYPE_ALTERNATION, CT::T_TYPE_INTERSECTION, T_VARIABLE])
         ) {
             return false;
         }
 
+        // handle foreach( FOO as $_ ) {}
+        if ($this->tokens[$nextIndex]->isGivenKind(T_AS)) {
+            $prevIndex = $this->tokens->getPrevMeaningfulToken($index);
+
+            if (!$this->tokens[$prevIndex]->equals('(')) {
+                return false;
+            }
+        }
+
         $prevIndex = $this->tokens->getPrevMeaningfulToken($index);
 
-        if ($this->tokens[$prevIndex]->isGivenKind([T_AS, T_CLASS, T_CONST, T_DOUBLE_COLON, T_FUNCTION, T_GOTO, CT::T_GROUP_IMPORT_BRACE_OPEN, T_INTERFACE, T_TRAIT, CT::T_TYPE_COLON, CT::T_TYPE_ALTERNATION, CT::T_TYPE_INTERSECTION]) || $this->tokens[$prevIndex]->isObjectOperator()) {
+        if ($this->tokens[$prevIndex]->isGivenKind(Token::getClassyTokenKinds())) {
             return false;
+        }
+
+        if ($this->tokens[$prevIndex]->isGivenKind([T_AS, T_CONST, T_DOUBLE_COLON, T_FUNCTION, T_GOTO, CT::T_GROUP_IMPORT_BRACE_OPEN, CT::T_TYPE_COLON, CT::T_TYPE_ALTERNATION, CT::T_TYPE_INTERSECTION]) || $this->tokens[$prevIndex]->isObjectOperator()) {
+            return false;
+        }
+
+        if (
+            $this->tokens[$prevIndex]->isGivenKind(T_CASE)
+            && \defined('T_ENUM')
+            && $this->tokens->isAllTokenKindsFound([T_ENUM])
+        ) {
+            $enumSwitchIndex = $this->tokens->getPrevTokenOfKind($index, [[T_SWITCH], [T_ENUM]]);
+
+            if (!$this->tokens[$enumSwitchIndex]->isGivenKind(T_SWITCH)) {
+                return false;
+            }
         }
 
         while ($this->tokens[$prevIndex]->isGivenKind([CT::T_NAMESPACE_OPERATOR, T_NS_SEPARATOR, T_STRING, CT::T_ARRAY_TYPEHINT])) {
@@ -427,10 +456,6 @@ final class TokensAnalyzer
 
         // check for goto label
         if ($this->tokens[$nextIndex]->equals(':')) {
-            if (null === $this->gotoLabelAnalyzer) {
-                $this->gotoLabelAnalyzer = new GotoLabelAnalyzer();
-            }
-
             if ($this->gotoLabelAnalyzer->belongsToGoToLabel($this->tokens, $nextIndex)) {
                 return false;
             }
@@ -827,6 +852,12 @@ final class TokensAnalyzer
                     'token' => $token,
                     'type' => 'property',
                 ];
+
+                continue;
+            }
+
+            if ($token->isGivenKind(CT::T_PROPERTY_HOOK_BRACE_OPEN)) {
+                $index = $this->tokens->getNextTokenOfKind($index, [[CT::T_PROPERTY_HOOK_BRACE_CLOSE]]);
 
                 continue;
             }
