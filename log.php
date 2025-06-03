@@ -470,16 +470,16 @@ if (isset($_POST['submitform']) && ($all_ok == true)) {
         exit;
     }
 
+    // Note: Temporary change to allow easier local testing with any log type.
+    if ($log_type == GeoCacheLog::LOGTYPE_FOUNDIT || true) {
+        // GeoKretyApi: call method logging selected Geokrets  (by Łza)
+        processGeoKrety($logDateTime, $user, $geoCache);
+    }
     if (in_array(
         $log_type,
         [GeoCacheLog::LOGTYPE_FOUNDIT, GeoCacheLog::LOGTYPE_ATTENDED, GeoCacheLog::LOGTYPE_WILLATTENDED]
     )
     ) {
-        if ($log_type == GeoCacheLog::LOGTYPE_FOUNDIT) {
-            // GeoKretyApi: call method logging selected Geokrets  (by Łza)
-            processGeoKrety($logDateTime, $user, $geoCache);
-        }
-
         $text_html = 2;  // see https://github.com/opencaching/opencaching-pl/issues/1218
 
         // This query INSERT cache_log entry ONLY IF such entry NOT EXISTS

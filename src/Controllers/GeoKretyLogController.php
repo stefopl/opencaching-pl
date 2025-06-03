@@ -113,19 +113,20 @@ class GeoKretyLogController extends BaseController
     {
         return [
             'secid' => $geoKretyLog->getUser()->getGeokretyApiSecid(),
-            'nr' => $geoKretyLog->getTrackingCode(),
+            'tracking_code' => $geoKretyLog->getTrackingCode(),
             'id' => $geoKretyLog->getGeoKretId(),
             'nm' => $geoKretyLog->getGeoKretName(),
             'formname' => 'ruchy',
             'logtype' => $geoKretyLog->getLogType(),
-            'data' => $geoKretyLog->getLogDateTime()->format('Y-m-d'),
-            'godzina' => $geoKretyLog->getLogDateTime()->format('H'),
-            'minuta' => $geoKretyLog->getLogDateTime()->format('i'),
+            'date' => $geoKretyLog->getLogDateTime()->format('Y-m-d'),
+            'hour' => $geoKretyLog->getLogDateTime()->format('H'),
+            'minute' => $geoKretyLog->getLogDateTime()->format('i'),
             'comment' => substr($geoKretyLog->getComment(), 0, 80)
                 . ' (autom. log oc.' . substr($this->ocConfig->getAbsolute_server_URI(), -3, 2) . ')',
-            'wpt' => $geoKretyLog->getGeoCache()->getWaypointId(),
+            'waypoint' => $geoKretyLog->getGeoCache()->getWaypointId(),
             'app' => 'Opencaching',
             'app_ver' => 'PL',
+            'coordinates' => str_replace('&nbsp;', ' ', $geoKretyLog->getGeoCache()->getCoordinates()->getAsText()),
         ];
     }
 

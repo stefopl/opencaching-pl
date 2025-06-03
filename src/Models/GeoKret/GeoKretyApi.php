@@ -4,6 +4,8 @@ namespace src\Models\GeoKret;
 
 use src\Models\BaseObject;
 use ErrorException;
+use src\Models\OcConfig\OcConfig;
+use src\Utils\Debug\Debug;
 
 /**
  * This class contain methods used to communicate with Geokrety, via Geokrety Api
@@ -23,7 +25,7 @@ class GeoKretyApi extends BaseObject
     private $secId = null;
     private $cacheWpt = null;
     private $maxID = null;
-    private $connectionTimeout = 16;
+    private $connectionTimeout = 5;
 
     function __construct($secId = null, $cacheWpt = null)
     {
@@ -39,7 +41,7 @@ class GeoKretyApi extends BaseObject
      */
     private function TakeUserGeokrets()
     {
-        $url = self::GEOKRETY_URL."/export2.php?secid=$this->secId&inventory=1";
+        $url = self::GEOKRETY_URL."/api/v1/export2?secid=$this->secId&inventory=1";
         $xml = $this->connect($url, self::OPERATION_TAKE_USER_GEOKRETS);
         libxml_use_internal_errors(true);
         if ($xml) {
@@ -62,7 +64,7 @@ class GeoKretyApi extends BaseObject
      */
     private function TakeGeoKretsInCache()
     {
-        $url = self::GEOKRETY_URL."/export2.php?wpt=$this->cacheWpt";
+        $url = self::GEOKRETY_URL."/api/v1/export2?wpt=$this->cacheWpt";
         $xml = $this->connect($url, self::OPERATION_TAKE_GEOKRETS_IN_CACHE);
 
         if ($xml) {
@@ -150,23 +152,54 @@ class GeoKretyApi extends BaseObject
 
     private function connect($url, $operationType)
     {
+        // Note: The API requires a valid User-Agent header to return the 'nr' attribute (tracking_code).
+        // Without it, the response may be incomplete.
+
         $opts = array('http' =>
             array(
-                'header' => 'Content-type: application/x-www-form-urlencoded',
+                'header' =>
+                    "Content-type: application/x-www-form-urlencoded\r\n" .
+                    "User-Agent: ".OcConfig::getSiteName()."\r\n",
                 'timeout' => $this->connectionTimeout,
             )
         );
         $context = stream_context_create($opts);
-        
+
+        $lastError = null;
+        set_error_handler(function ($errno, $errstr, $errfile, $errline) use (&$lastError) {
+            $lastError = "$errstr in $errfile on line $errline";
+            return true;
+        });
+
         try{
-            $response = FALSE; // TEM DISABLE: @file_get_contents($url, false, $context);
+            $response = @file_get_contents($url, false, $context);
         } catch (Exception $e){
             $response = FALSE;
         }
+
+        restore_error_handler();
         
         if ($response) {
+            $isXml = false;
+            if (isset($http_response_header)) {
+                foreach ($http_response_header as $headerLine) {
+                    if (stripos($headerLine, 'Content-Type:') === 0 &&
+                        (stripos($headerLine, 'application/xml') !== false ||
+                            stripos($headerLine, 'text/xml') !== false)) {
+                        $isXml = true;
+                        break;
+                    }
+                }
+            }
+            if (!$isXml) {
+                Debug::errorLog("GeoKrety API response does not have an XML Content-Type Operation type: $operationType", false);
+                $result = false;
+            }
+
             $result = $response;
         } else {
+            $errorMessage = $lastError ?? 'Unnown error';
+            Debug::errorLog("GeoKrety API error Operation type: $operationType Error: $errorMessage", false);
             $this->storeErrorsInDb($operationType, $url);
             $result = false;
         }

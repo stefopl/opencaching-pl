@@ -15,7 +15,7 @@ use src\Utils\Database\XDb;
 
   description          : It's the new version of geokrety.org synchronization
   for opencaching nodes. This code uses a dedicated method
-  export_oc.php - see: https://geokrety.org/api.php for more
+  export_oc.php - see: https://geokrety.org/help/api for more
   information. The old method that is used in
   geokrety.class.php is deprecated.
 
@@ -33,7 +33,7 @@ class GeoKretyNewJob extends Job
         $modifiedsince = strtotime($last_updated);
 
         // new OC dedicated geokrety XML export
-        $url = GeoKretyApi::GEOKRETY_URL . '/export_oc.php?modifiedsince=' . date('YmdHis', $modifiedsince - 1);
+        $url = GeoKretyApi::GEOKRETY_URL . '/api/v1/export_oc?modifiedsince=' . date('YmdHis', $modifiedsince - 1);
 
         $xmlString = file_get_contents($url);
 
