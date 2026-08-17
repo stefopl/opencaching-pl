@@ -276,6 +276,9 @@ class CacheAttribute
     /** Log is part of a guestbook */
     public const GUESTBOOK = 222;
 
+    /** Find cache by detail shown in photo */
+    public const DETAIL = 223;
+
     /** Cache is part of a GeoPath [SPECIAL ATTRIBUTE] */
     public const GEOPATH = 998;
 
@@ -395,6 +398,7 @@ class CacheAttribute
         self::NOTINWINTER => ['trKey' => 'at_notinwinter', 'icon' => 'at_notinwinter.png'],
         self::ALLSEASONS => ['trKey' => 'at_allseasons', 'icon' => 'at_allseasons.png'],
         self::PASSWORD => ['trKey' => 'LogPassword', 'icon' => 'at_password.png'],
+        self::DETAIL => ['trKey' => 'at_detail', 'icon' => 'at_detail.png'],
     ];
 
     /** Identifiers of attributes as strings for GPX usability */

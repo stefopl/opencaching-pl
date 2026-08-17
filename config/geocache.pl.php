@@ -58,6 +58,6 @@ $geocache['supportedAttributes'] = [
     CacheAttribute::MAGNETIC, CacheAttribute::MP3, CacheAttribute::OFFSET,
     CacheAttribute::USB, CacheAttribute::BENCHMARK, CacheAttribute::WHERIGO,
     CacheAttribute::NATURE, CacheAttribute::MONUMENT, CacheAttribute::SHOVEL,
-    CacheAttribute::WALK
+    CacheAttribute::WALK, CacheAttribute::DRIVEIN, CacheAttribute::DETAIL,
 ];
 

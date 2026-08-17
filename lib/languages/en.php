@@ -3258,6 +3258,7 @@ $translations = [
     'at_day' => 'NOT recommended at night',
     'at_notinwinter' => 'NOT available during winter',
     'at_allseasons' => 'Available all seasons',
+    'at_detail' => 'Detail',
 
     'cache_approval_refresh' => 'Refresh list',
     'cache_approval_refresh_time' => 'Last update',

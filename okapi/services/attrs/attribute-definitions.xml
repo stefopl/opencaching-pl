@@ -1088,6 +1088,7 @@ store these attributes in GPX <groundspeak:attribute> elements.
         <groundspeak id="53" inc="true" name="Park and grab" />
         <opencaching schema="OCDE" id="24" />
         <opencaching schema="OCUK" id="53" />
+        <opencaching schema="OCPL" id="53" />
         <lang id="en">
             <name>Park and grab</name>
             <desc>
@@ -4168,6 +4169,22 @@ store these attributes in GPX <groundspeak:attribute> elements.
             <name>Handicap: Blind</name>
             <desc>
                 Dieser Cache kann von Menschen mit Sehbehinderung gefunden werden.
+            </desc>
+        </lang>
+    </attr>
+
+    <attr acode="A90" categories="de-cache-types">
+        <opencaching schema="OCPL" id="223" />
+        <lang id="en">
+            <name>Detail</name>
+            <desc>
+                The cache can be found after locating an architectural detail in the designated area.
+            </desc>
+        </lang>
+        <lang id="pl">
+            <name>Wyimek</name>
+            <desc>
+                Skrzynkę można znaleźć po zlokalizowaniu detalu architektonicznego w wyznaczonym obszarze.
             </desc>
         </lang>
     </attr>

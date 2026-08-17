@@ -1,5 +1,6 @@
 <?php
-
+use src\Utils\I18n\I18n;
+use src\Utils\Database\OcDb;
 use src\Models\GeoCache\CacheAttribute;
 
 ?>
@@ -58,7 +59,79 @@ use src\Models\GeoCache\CacheAttribute;
 
 <h1>Attributes tester</h1>
 
+<?php
+
+function attr_jsline($tpl, $options, $id, $textlong, $iconlarge, $iconno, $iconundef, $category)
+{
+  $line = $tpl;
+
+  $line = mb_ereg_replace('{id}', $id, $line);
+
+
+  $line = mb_ereg_replace('{state}', 1, $line);
+
+  $line = mb_ereg_replace('{text_long}', addslashes($textlong), $line);
+  $line = mb_ereg_replace('{icon}', $iconlarge, $line);
+  $line = mb_ereg_replace('{icon_no}', $iconno, $line);
+  $line = mb_ereg_replace('{icon_undef}', $iconundef, $line);
+  $line = mb_ereg_replace('{category}', $category, $line);
+
+  return $line;
+}
+
+function attr_image($tpl, $options, $id, $textlong, $iconlarge, $iconno, $iconundef, $category)
+{
+  $line = $tpl;
+
+  $line = mb_ereg_replace('{id}', $id, $line);
+  $line = mb_ereg_replace('{text_long}', $textlong, $line);
+
+
+  $line = mb_ereg_replace('{icon}', $iconlarge, $line);
+  return $line;
+}
+
+?>
+
 <?php foreach(['pl', 'nl', 'ro','uk', 'us'] as $node) { ?>
+
+    <?php
+
+    if($config['ocNode'] == $node){
+      $attributes_jsarray = '';
+      $attributes_img = '';
+      $attributesCat2_img = '';
+
+      $cache_attrib_jsarray_line = "new Array('{id}', {state}, '{text_long}', '{icon}', '{icon_no}', '{icon_undef}', '{category}')";
+      $cache_attrib_img_line = '<img id="attrimg{id}" src="{icon}" title="{text_long}" alt="{text_long}" onmousedown="switchAttribute({id})" style="cursor: pointer;" /> ';
+
+      $database = OcDb::instance();
+      $query = "SELECT `id`, `text_long`, `icon_large`, `icon_no`, `icon_undef`, `category` FROM `cache_attrib` WHERE `language` LIKE :1 ORDER BY `id`";
+      $s = $database->multiVariableQuery($query, strtoupper(I18n::getCurrentLang()));
+      if($database->rowCount($s) <= 0) {
+        $s = $database->multiVariableQuery($query, 'EN');
+      }
+      $rs = $database->dbResultFetchAll($s);
+
+      foreach ($rs as $record)
+      {
+        $line = attr_jsline($cache_attrib_jsarray_line, false, $record['id'], $record['text_long'], '/'.$record['icon_large'], '/'.$record['icon_no'], '/'.$record['icon_undef'], $record['category']);
+        if ($attributes_jsarray != '') $attributes_jsarray .= ",\n";
+        $attributes_jsarray .= $line;
+        $line = attr_image($cache_attrib_img_line, false, $record['id'], $record['text_long'], '/'.$record['icon_large'], '/'.$record['icon_no'], '/'.$record['icon_undef'], $record['category']);
+        if ($record['category'] != 1)
+          $attributesCat2_img .= $line;
+        else
+          $attributes_img .= $line;
+      }
+      $line = attr_jsline($cache_attrib_jsarray_line, false, "999", tr("with_password"), '/'.$config['search-attr-icons']['password'][0], '/'.$config['search-attr-icons']['password'][1], '/'.$config['search-attr-icons']['password'][2], 0);
+      $attributes_jsarray .= ",\n".$line;
+
+      $line = attr_image($cache_attrib_img_line, false, "999", tr("with_password"), '/'.$config['search-attr-icons']['password'][0], '/'.$config['search-attr-icons']['password'][1], '/'.$config['search-attr-icons']['password'][2], 0);
+      $attributes_img .= $line;
+    }
+    ?>
+
     <hr>
     <h2>oc<?=$node?></h2>
     <div>
@@ -66,6 +139,13 @@ use src\Models\GeoCache\CacheAttribute;
       <img src="/images/cacheAttributes/test/oc<?=$node?>.png">
     </div>
     <p></p>
+    <?php if($config['ocNode'] == $node): ?>
+      <p>3-states icons generated like as search view:</p>
+      <div class="atContainer">
+        <?php echo $attributes_img; ?>
+      </div>
+      <p><br/></p>
+    <?php endif; ?>
     <p>3-states icons generated from new code:</p>
     <div class="atContainer">
     <?php foreach ($view->attrList[$node] as $key=>$at) { ?>
@@ -117,4 +197,33 @@ function changeAtIcon(obj) {
 $('.atImgList').on("error", function() {
     $(this).attr('src', '/images/blue/atten-red.png');
 });
+
+function switchAttribute(id)
+{
+    var attrImg = document.getElementById("attrimg" + id);
+    var nArrayIndex = 0;
+
+    for (nArrayIndex = 0; nArrayIndex < maAttributes.length; nArrayIndex++)
+    {
+        if (maAttributes[nArrayIndex][0] == id)
+            break;
+    }
+
+    if (maAttributes[nArrayIndex][1] == 0)
+    {
+        attrImg.src = maAttributes[nArrayIndex][3];
+        maAttributes[nArrayIndex][1] = 1;
+    }
+    else if (maAttributes[nArrayIndex][1] == 1)
+    {
+        attrImg.src = maAttributes[nArrayIndex][4];
+        maAttributes[nArrayIndex][1] = 2;
+    }
+    else if (maAttributes[nArrayIndex][1] == 2)
+    {
+        attrImg.src = maAttributes[nArrayIndex][5];
+        maAttributes[nArrayIndex][1] = 0;
+    }
+}
+var maAttributes = new Array(<?php echo $attributes_jsarray ?>);
 </script>
